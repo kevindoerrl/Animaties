@@ -1,0 +1,24 @@
+{
+  "naam": "Vlog",
+  "website": "",
+  "kleuren": {
+    "primary": "#000000",
+    "secondary": "#FFFFFF",
+    "accent": "#FF0000",
+    "tekst": "#FFFFFF",
+    "achtergrond": "#000000"
+  },
+  "fonts": {
+    "heading": { "family": "", "weight": 900, "bestand": "fonts/" },
+    "body": { "family": "", "weight": 500, "bestand": "fonts/" }
+  },
+  "logo": {
+    "primair": "logo/logo.svg",
+    "wit": "logo/logo_wit.svg"
+  },
+  "fixed_outro": null,
+  "oplevering": {
+    "hook_varianten": 2,
+    "max_animaties": null
+  }
+}
