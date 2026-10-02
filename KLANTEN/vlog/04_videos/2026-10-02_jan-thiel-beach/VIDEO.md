@@ -11,11 +11,11 @@
 
 | # | Tijd | Type | Spoken trigger | Status |
 |---|---|---|---|---|
-| A | 00:00.0 → 00:03.0 | Locatie: kaart Curaçao + pin op Jan Thiel | "we zijn bij Jan Thiel Beach" | stills v1 |
-| B | 00:00.0 → 00:03.0 | Locatie: grote vlog-titel "JAN THIEL beach" + Curaçao-pill | idem | stills v1 |
-| C | 00:00.0 → 00:03.0 | Locatie: paspoort-stempel die op beeld klapt | idem | stills v1 |
+| A | 00:00.0 → 00:03.0 | Locatie: kaart Curaçao + pin op Jan Thiel | "we zijn bij Jan Thiel Beach" | ✅ gekozen · MOV v1 geleverd |
+| B | 00:00.0 → 00:03.0 | Locatie: grote vlog-titel "JAN THIEL beach" + Curaçao-pill | idem | ❌ niet gekozen |
+| C | 00:00.0 → 00:03.0 | Locatie: paspoort-stempel die op beeld klapt | idem | ❌ niet gekozen |
 
-Keuze: één van A/B/C → MOV. Compositie-bron: `02_analyse/compositie/` (HTML + Playwright-renderer, kaart = Natural Earth 10m).
+MOV: `04_animaties/vlog_locatie_kaart_v1.mov`. Compositie-bron: `02_analyse/compositie/` (HTML + Playwright-renderer, kaart = Natural Earth 10m).
 
 ## Mappen
 - `01_bron/`: aangeleverde MP4 / MP3 / script (nooit aanpassen)
