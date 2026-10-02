@@ -3,7 +3,7 @@
 // Gebruik: npm run migreer -- --van "G:\Mijn Drive\...\animaties" [--uitvoeren]
 import fs from "node:fs";
 import path from "node:path";
-import { ROOT, KLANTEN, TEMPLATE, VIDEO_TEMPLATE, copyTemplate, slug, vandaag, parseArgs } from "./lib.mjs";
+import { ROOT, KLANTEN, TEMPLATE, VIDEO_TEMPLATE, copyTemplate, slug, vandaag, parseArgs, STANDAARD_FORMAAT, formaatTekst } from "./lib.mjs";
 
 const { opt } = parseArgs();
 const van = path.resolve(opt.van || ROOT);
@@ -19,13 +19,13 @@ function kopieer(src, dst) {
 
 function zorgKlant(k) {
   const dir = path.join(KLANTEN, slug(k));
-  if (echt && !fs.existsSync(dir)) copyTemplate(TEMPLATE, dir, { KLANT: k, WEBSITE: "", DATUM: vandaag() }, ["_VIDEO_TEMPLATE"]);
+  if (echt && !fs.existsSync(dir)) copyTemplate(TEMPLATE, dir, { KLANT: k, WEBSITE: "", DATUM: vandaag(), FORMAAT: formaatTekst(STANDAARD_FORMAAT) }, ["_VIDEO_TEMPLATE"]);
   return dir;
 }
 
 function zorgVideo(kdir, video) {
   const dir = path.join(kdir, "04_videos", slug(video));
-  if (echt && !fs.existsSync(dir)) copyTemplate(VIDEO_TEMPLATE, dir, { KLANT: path.basename(kdir), VIDEO: video, DATUM: vandaag() });
+  if (echt && !fs.existsSync(dir)) copyTemplate(VIDEO_TEMPLATE, dir, { KLANT: path.basename(kdir), VIDEO: video, DATUM: vandaag(), FORMAAT: formaatTekst(STANDAARD_FORMAAT), DUUR: "" });
   return dir;
 }
 

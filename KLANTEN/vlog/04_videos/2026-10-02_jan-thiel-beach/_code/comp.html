@@ -1,0 +1,242 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+@font-face{font-family:Caveat;src:url(fonts/caveat.ttf)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/inter700.ttf)}
+@font-face{font-family:Inter;font-weight:900;src:url(fonts/inter900.ttf)}
+:root{--magenta:#E8177D;--sun:#FFC93C;--ocean1:#43CBE3;--ocean2:#1287BF;--sand:#F7E4B6;--ink:#0E2A3B}
+html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
+.layer{position:absolute;inset:0;display:none}
+.abs{position:absolute}
+</style></head>
+<body>
+
+<!-- ============ STIJL A: KAART + PIN ============ -->
+<div id="A" class="layer">
+  <div id="A_card" class="abs" style="left:110px;top:96px;width:560px;height:490px;transform-origin:50% 50%">
+    <div style="position:absolute;inset:0;border-radius:34px;background:#fff;box-shadow:0 30px 70px rgba(10,30,50,.38),0 6px 18px rgba(10,30,50,.25)"></div>
+    <div style="position:absolute;left:14px;top:14px;width:532px;height:340px;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,var(--ocean1),var(--ocean2))">
+      <svg id="A_svg" width="532" height="340" viewBox="0 0 532 340" style="position:absolute;inset:0">
+        <defs>
+          <pattern id="waves" width="46" height="22" patternUnits="userSpaceOnUse">
+            <path d="M0 11 q11.5 -7 23 0 t23 0" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2.5"/>
+          </pattern>
+        </defs>
+        <rect width="532" height="340" fill="url(#waves)"/>
+        <path id="A_shadow" fill="rgba(5,60,90,.35)"/>
+        <path id="A_island" fill="var(--sand)" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+        <g id="A_ripples"></g>
+        <g id="A_pin">
+          <ellipse id="A_pinShadow" cx="0" cy="0" rx="16" ry="6" fill="rgba(0,0,0,.35)"/>
+          <g id="A_pinBody">
+            <path d="M0 0 C -6 -14 -26 -30 -26 -50 A 26 26 0 1 1 26 -50 C 26 -30 6 -14 0 0 Z" fill="var(--magenta)" stroke="#fff" stroke-width="4"/>
+            <circle cx="0" cy="-50" r="10" fill="#fff"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="abs" style="left:0;right:0;top:362px;height:118px;overflow:hidden">
+      <div id="A_t1" class="abs" style="left:0;right:0;top:4px;text-align:center;font:400 64px/1.1 Anton;color:var(--ink);letter-spacing:1px">JAN THIEL BEACH</div>
+      <div id="A_t2" class="abs" style="left:0;right:0;top:80px;text-align:center;font:900 22px/1 Inter;color:var(--magenta);letter-spacing:9px">CURAÇAO</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ STIJL B: GROTE VLOG-TITEL ============ -->
+<div id="B" class="layer">
+  <div id="B_wrap" class="abs" style="left:120px;top:70px;width:900px;height:620px;transform-origin:20% 40%">
+    <div id="B_line1" class="abs" style="left:0;top:0;height:250px;white-space:nowrap;font:400 220px/250px Anton;color:#fff;letter-spacing:3px"></div>
+    <div id="B_beachWrap" class="abs" style="left:440px;top:215px;width:600px;height:260px;transform:rotate(-6deg);transform-origin:0 50%">
+      <div id="B_beach" class="abs" style="left:0;top:0;font:400 230px/260px Caveat;color:var(--sun);white-space:nowrap;text-shadow:0 7px 0 var(--ink)">beach</div>
+    </div>
+    <svg class="abs" style="left:440px;top:452px;overflow:visible" width="520" height="60">
+      <path id="B_swoosh" d="M10 30 C 120 6, 260 2, 470 14 M 50 46 C 170 30, 290 28, 410 36" fill="none" stroke="var(--magenta)" stroke-width="11" stroke-linecap="round"/>
+    </svg>
+    <div id="B_pill" class="abs" style="left:8px;top:296px;height:64px;padding:0 28px 0 18px;border-radius:40px;background:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 14px 34px rgba(0,0,0,.28);transform-origin:20% 50%">
+      <svg width="30" height="38" viewBox="-26 -78 52 80"><path d="M0 0 C -6 -14 -26 -30 -26 -50 A 26 26 0 1 1 26 -50 C 26 -30 6 -14 0 0 Z" fill="var(--magenta)"/><circle cx="0" cy="-50" r="10" fill="#fff"/></svg>
+      <span style="font:900 28px/1 Inter;color:var(--ink);letter-spacing:6px">CURAÇAO</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ STIJL C: PASPOORT-STEMPEL ============ -->
+<div id="C" class="layer">
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="grunge" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n1"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="3" result="n2"/>
+      <feComposite in="n1" in2="n2" operator="arithmetic" k2="0.6" k3="0.6" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -7 5.9" result="mask"/>
+      <feComposite in="SourceGraphic" in2="mask" operator="in"/>
+    </filter>
+  </svg>
+  <div id="C_stamp" class="abs" style="left:150px;top:110px;width:500px;height:500px;transform-origin:50% 50%">
+    <svg width="500" height="500" viewBox="-250 -250 500 500" style="overflow:visible;filter:drop-shadow(0 10px 22px rgba(0,0,0,.25))">
+      <defs><path id="circ" d="M -150 0 A 150 150 0 1 1 150 0 A 150 150 0 1 1 -150 0"/></defs>
+      <circle r="246" fill="#FFF6E3"/>
+      <g filter="url(#grunge)" fill="var(--magenta)" stroke="var(--magenta)">
+        <circle r="236" fill="none" stroke-width="14"/>
+        <circle r="212" fill="none" stroke-width="4"/>
+        <circle r="118" fill="none" stroke-width="4"/>
+        <text font-family="Anton" font-size="50" stroke="none"><textPath href="#circ" startOffset="0" textLength="925" lengthAdjust="spacing">JAN THIEL BEACH ★ CURAÇAO ★</textPath></text>
+        <!-- zon -->
+        <g id="C_sun" stroke="none">
+          <path d="M -58 6 A 58 58 0 0 1 58 6 Z"/>
+          <g stroke-width="9" stroke-linecap="round" fill="none">
+            <line x1="0" y1="-66" x2="0" y2="-94"/><line x1="-47" y1="-47" x2="-66" y2="-66"/><line x1="47" y1="-47" x2="66" y2="-66"/>
+            <line x1="-66" y1="-6" x2="-94" y2="-6"/><line x1="66" y1="-6" x2="94" y2="-6"/>
+          </g>
+        </g>
+        <g fill="none" stroke-width="9" stroke-linecap="round">
+          <path d="M -86 34 q 14.3 -12 28.6 0 t 28.6 0 t 28.6 0 t 28.6 0 t 28.6 0 t 28.6 0"/>
+          <path d="M -70 64 q 11.6 -10 23.3 0 t 23.3 0 t 23.3 0 t 23.3 0 t 23.3 0 t 23.3 0"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <g></g>
+  <div id="C_dots"></div>
+</div>
+
+<script>
+// ---------- easing ----------
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={
+  outExpo:x=>x>=1?1:1-Math.pow(2,-10*x),
+  inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
+  outBack:x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,
+  outCubic:x=>1-Math.pow(1-x,3),
+};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const D=3.0; // duur in seconden
+
+// ---------- kaartdata (Natural Earth 10m, Curaçao) ----------
+let ISLAND=null;
+const JT=[-68.862,12.078]; // Jan Thiel Beach
+function proj([lon,lat]){
+  const k=Math.cos(12.2*Math.PI/180), s=760;
+  const cx=(-69.17+-68.74)/2, cy=(12.04+12.39)/2;
+  return [266+(lon-cx)*k*s, 170-(lat-cy)*s];
+}
+function setupA(){
+  const ring=ISLAND.geometry.coordinates[0].map(proj);
+  const d='M'+ring.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L')+' Z';
+  const isl=document.getElementById('A_island');
+  isl.setAttribute('d',d);
+  document.getElementById('A_shadow').setAttribute('d',d);
+  document.getElementById('A_shadow').setAttribute('transform','translate(6 9)');
+  const len=isl.getTotalLength();
+  isl.style.strokeDasharray=len; isl.dataset.len=len;
+}
+
+// ---------- stijl B: letters opbouwen ----------
+function setupB(){
+  const l=document.getElementById('B_line1');
+  l.innerHTML=[...'JAN THIEL'].map(c=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;height:250px"><span class="ch" style="display:inline-block;text-shadow:0 9px 0 var(--magenta),0 14px 30px rgba(0,30,60,.35)">${c===' '?'&nbsp;':c}</span></span>`).join('');
+  const sw=document.getElementById('B_swoosh');
+  const len=sw.getTotalLength(); sw.style.strokeDasharray=len; sw.dataset.len=len;
+}
+
+// ---------- stijl C: inktspetters ----------
+const DOTS=[[-250,-170,9],[262,-120,6],[240,190,11],[-230,215,7],[290,40,5],[-292,30,6],[120,-268,5],[-110,280,8]];
+function setupC(){
+  document.getElementById('C_dots').innerHTML=DOTS.map((d,i)=>`<div class="abs dot" style="left:${400+d[0]}px;top:${340+d[1]}px;width:${d[2]*2}px;height:${d[2]*2}px;border-radius:50%;background:var(--magenta)"></div>`).join('');
+}
+
+function render(style,t){
+  for(const id of ['A','B','C']) document.getElementById(id).style.display=id===style?'block':'none';
+  const exit=eased(t,D-0.42,D-1/60,ease.inExpo); // klaar op laatste frame
+  if(style==='A'){
+    const p=eased(t,0,0.55,ease.outExpo);
+    const sc=lerp(1.9,1,p)*lerp(1,0.82,exit), bl=lerp(26,0,p)+exit*18;
+    const drift=Math.sin(t*1.6)*4;
+    const c=document.getElementById('A_card');
+    c.style.transform=`translateY(${drift}px) rotate(${lerp(-9,-3,p)}deg) scale(${sc})`;
+    c.style.filter=`blur(${bl}px) saturate(${lerp(.4,1,p)})`;
+    c.style.opacity=Math.min(eased(t,0,0.18,ease.outCubic),1-exit);
+    // eiland tekent zich
+    const isl=document.getElementById('A_island'), len=+isl.dataset.len;
+    const dp=eased(t,0.15,0.85,ease.inOutCubic);
+    isl.style.strokeDashoffset=len*(1-dp);
+    const fp=eased(t,0.45,0.85,ease.outCubic);
+    isl.style.fillOpacity=fp; document.getElementById('A_shadow').style.opacity=fp;
+    // pin valt
+    const [px,py]=proj(JT);
+    const pp=eased(t,0.72,1.12,ease.outBack);
+    const pinY=lerp(-260,0,pp), pinS=lerp(1.6,1,eased(t,0.72,1.0,ease.outExpo));
+    document.getElementById('A_pin').setAttribute('transform',`translate(${px} ${py})`);
+    document.getElementById('A_pinBody').setAttribute('transform',`translate(0 ${pinY}) scale(${pinS})`);
+    document.getElementById('A_pinBody').style.opacity=t<0.72?0:1;
+    const sh=document.getElementById('A_pinShadow');
+    sh.setAttribute('rx',lerp(4,16,pp)); sh.style.opacity=t<0.72?0:clamp(pp);
+    // ripples
+    let r='';
+    for(let k=0;k<3;k++){
+      const st=1.02+k*0.42; if(t<st) continue;
+      const q=((t-st)%1.26)/1.26;
+      r+=`<ellipse cx="${px}" cy="${py}" rx="${8+q*70}" ry="${3+q*26}" fill="none" stroke="#fff" stroke-width="${4*(1-q)+.5}" opacity="${(1-q)*.9}"/>`;
+    }
+    document.getElementById('A_ripples').innerHTML=r;
+    // tekst
+    const t1=eased(t,0.45,0.95,ease.outExpo), t2=eased(t,0.62,1.1,ease.outExpo);
+    const e1=document.getElementById('A_t1'), e2=document.getElementById('A_t2');
+    e1.style.transform=`translateY(${lerp(110,0,t1)}px)`; e1.style.filter=`blur(${lerp(8,0,t1)}px)`;
+    e2.style.transform=`translateY(${lerp(60,0,t2)}px)`; e2.style.opacity=t2;
+    e2.style.letterSpacing=lerp(26,9,t2)+'px';
+  }
+  if(style==='B'){
+    const w=document.getElementById('B_wrap');
+    const pin=eased(t,0,0.4,ease.outExpo);
+    w.style.transform=`translateY(${Math.sin(t*1.4)*3}px) scale(${lerp(1.12,1,pin)*lerp(1,0.9,exit)})`;
+    w.style.opacity=1-exit; w.style.filter=`blur(${exit*16}px)`;
+    document.querySelectorAll('#B_line1 .ch').forEach((ch,i)=>{
+      const p=eased(t,0.03*i,0.03*i+0.5,ease.outExpo);
+      ch.style.transform=`translateY(${lerp(250,0,p)}px) rotate(${lerp(12,0,p)}deg)`;
+      ch.style.filter=`blur(${lerp(10,0,p)}px)`;
+    });
+    // "beach" schrijft zich
+    const bp=eased(t,0.45,1.05,ease.inOutCubic);
+    const be=document.getElementById('B_beach');
+    be.style.clipPath=`inset(-20% ${lerp(100,-5,bp)}% -20% -5%)`;
+    be.style.transform=`translateY(${lerp(18,0,bp)}px)`;
+    const sw=document.getElementById('B_swoosh'), len=+sw.dataset.len;
+    sw.style.strokeDashoffset=len*(1-eased(t,0.9,1.35,ease.outCubic));
+    // pill (z-as)
+    const pl=eased(t,0.75,1.2,ease.outBack), plo=eased(t,0.75,0.95,ease.outCubic);
+    const pe=document.getElementById('B_pill');
+    pe.style.transform=`scale(${lerp(1.8,1,eased(t,0.75,1.15,ease.outExpo))}) rotate(${lerp(-10,0,pl)}deg)`;
+    pe.style.filter=`blur(${lerp(14,0,plo)}px)`; pe.style.opacity=plo;
+  }
+  if(style==='C'){
+    const s=document.getElementById('C_stamp');
+    const hit=0.32;
+    const p=eased(t,0,hit,x=>x*x*x); // versnelt in, slam
+    let sc=lerp(2.8,1,p);
+    if(t>hit){const q=t-hit; sc=1-0.07*Math.exp(-q*14)*Math.cos(q*42);} // squash na impact
+    sc*=lerp(1,0.85,exit);
+    const rot=lerp(-24,-11,eased(t,0,hit,ease.outCubic))+Math.sin(t*1.3)*0.8;
+    s.style.transform=`rotate(${rot}deg) scale(${sc})`;
+    s.style.filter=`blur(${lerp(22,0,p)+exit*14}px) saturate(${lerp(.3,1,p)})`;
+    s.style.opacity=Math.min(eased(t,0,0.12,ease.outCubic),1-exit);
+    document.querySelectorAll('#C_dots .dot').forEach((d,i)=>{
+      const q=eased(t,hit,hit+0.25+i*0.02,ease.outExpo);
+      const [dx,dy]=DOTS[i];
+      d.style.transform=`translate(${dx*0.25*q}px,${dy*0.25*q}px) scale(${t<hit?0:lerp(0,1,q)})`;
+      d.style.opacity=t<hit?0:(1-exit)*.9;
+    });
+    // zon draait zachtjes
+    document.getElementById('C_sun').setAttribute('transform',`translate(0 -14) rotate(${Math.sin(t*2)*4})`);
+  }
+}
+window.init=async()=>{
+  ISLAND=await (await fetch('curacao.json')).json();
+  await document.fonts.load('220px Anton'); await document.fonts.load('200px Caveat');
+  await document.fonts.load('900 28px Inter'); await document.fonts.ready;
+  setupA(); setupB(); setupC();
+};
+window.render=render; window.D=D;
+</script>
+</body></html>

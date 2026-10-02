@@ -86,7 +86,11 @@ export function openMap(dir) {
   const [cmd, args] =
     process.platform === "win32" ? ["explorer.exe", [path.resolve(dir)]] :
     process.platform === "darwin" ? ["open", [dir]] : ["xdg-open", [dir]];
-  try { spawn(cmd, args, { detached: true, stdio: "ignore" }).unref(); } catch {}
+  try {
+    const c = spawn(cmd, args, { detached: true, stdio: "ignore" });
+    c.on("error", () => {}); // geen bestandsbeheer (server/container): gewoon overslaan
+    c.unref();
+  } catch {}
 }
 
 // Back-up vóór overschrijven → <videomap>/_archief/<naam>_<timestamp>.<ext>
@@ -101,3 +105,66 @@ export function backupVoorOverschrijven(doel) {
   fs.copyFileSync(doel, kopie);
   return kopie;
 }
+
+// ---------- Formaat (breedte × hoogte @ fps) ----------
+// Per klant een standaard in 01_brand/brand.json → "formaat", per video vastgelegd in video.json.
+export const STANDAARD_FORMAAT = { breedte: 1080, hoogte: 1920, fps: 30 };
+export const FORMAAT_PRESETS = {
+  staand: { breedte: 1080, hoogte: 1920, fps: 30 }, // TikTok / Reels / Shorts
+  tiktok: { breedte: 1080, hoogte: 1920, fps: 30 },
+  reels: { breedte: 1080, hoogte: 1920, fps: 30 },
+  shorts: { breedte: 1080, hoogte: 1920, fps: 30 },
+  youtube: { breedte: 1920, hoogte: 1080, fps: 30 },
+  liggend: { breedte: 1920, hoogte: 1080, fps: 30 },
+  "youtube-4k": { breedte: 3840, hoogte: 2160, fps: 30 },
+  vierkant: { breedte: 1080, hoogte: 1080, fps: 30 },
+  feed: { breedte: 1080, hoogte: 1350, fps: 30 }, // 4:5
+};
+
+// "youtube" | "1920x1080" | "1920x1080@60" | "youtube@60" → { breedte, hoogte, fps }
+export function parseFormaat(txt) {
+  const [basis, fps] = String(txt).toLowerCase().trim().split("@");
+  let f = FORMAAT_PRESETS[basis] ? { ...FORMAAT_PRESETS[basis] } : null;
+  const m = basis.match(/^(\d+)\s*[x×]\s*(\d+)$/);
+  if (m) f = { breedte: +m[1], hoogte: +m[2], fps: 30 };
+  if (!f) fail(`Onbekend formaat "${txt}". Gebruik bv. youtube, tiktok, 1920x1080@60. Presets: ${Object.keys(FORMAAT_PRESETS).join(", ")}`);
+  if (fps) f.fps = +fps;
+  if (!(f.fps > 0)) fail(`Ongeldige fps in "${txt}"`);
+  return f;
+}
+
+export const formaatTekst = (f) => `${f.breedte}×${f.hoogte} @ ${f.fps}fps`;
+
+// Leest breedte/hoogte/fps uit een videobestand (rotatie meegenomen). null als het geen video is.
+export function probeFormaat(file) {
+  const r = run("ffprobe", ["-v", "error", "-select_streams", "v:0", "-show_entries",
+    "stream=width,height,r_frame_rate:stream_side_data=rotation:stream_tags=rotate", "-of", "json", file], { quiet: true });
+  if (r.status !== 0) return null;
+  const v = JSON.parse(r.stdout).streams?.[0];
+  if (!v?.width) return null;
+  const rot = Math.abs(+(v.side_data_list?.find((d) => d.rotation != null)?.rotation ?? v.tags?.rotate ?? 0));
+  const [num, den] = (v.r_frame_rate || "30/1").split("/").map(Number);
+  const gedraaid = rot === 90 || rot === 270;
+  return {
+    breedte: gedraaid ? v.height : v.width,
+    hoogte: gedraaid ? v.width : v.height,
+    fps: Math.round((num / den) * 100) / 100,
+  };
+}
+
+const leesJson = (f) => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch { return null; } };
+
+// Verwacht formaat voor een bestand of map: dichtstbijzijnde video.json → klant brand.json → standaard.
+export function verwachtFormaat(p) {
+  let dir = path.resolve(fs.existsSync(p) && fs.statSync(p).isDirectory() ? p : path.dirname(p));
+  while (dir !== path.dirname(dir)) {
+    const vj = leesJson(path.join(dir, "video.json"));
+    if (vj?.formaat) return { ...vj.formaat, bron: path.join(dir, "video.json") };
+    const bj = leesJson(path.join(dir, "01_brand", "brand.json"));
+    if (bj?.formaat) return { ...bj.formaat, bron: path.join(dir, "01_brand", "brand.json") };
+    dir = path.dirname(dir);
+  }
+  return { ...STANDAARD_FORMAAT, bron: "standaard" };
+}
+
+export const isVideo = (f) => /\.(mp4|mov|m4v|mkv|webm|avi|mxf)$/i.test(f);

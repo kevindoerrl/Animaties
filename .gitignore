@@ -3,6 +3,15 @@ KLANTEN/*/04_videos/**
 !KLANTEN/*/04_videos/**/
 !KLANTEN/*/04_videos/**/*.md
 !KLANTEN/*/04_videos/**/.gitkeep
+!KLANTEN/*/04_videos/*/video.json
+# Broncode van de animaties per video wél in git (zodat je later opnieuw kunt renderen)
+!KLANTEN/*/04_videos/*/_code/**
+KLANTEN/*/04_videos/*/_code/**/node_modules/
+
+# Admin (offertes, contracten, facturen) blijft op Drive
+KLANTEN/*/00_admin/**
+!KLANTEN/*/00_admin/.gitkeep
+!KLANTEN/*/00_admin/*.md
 !KLANTEN/_TEMPLATE/**
 
 *.mov

@@ -4,7 +4,8 @@
 |---|---|
 | **Aangemaakt** | {{DATUM}} |
 | **Bron** | `01_bron/` |
-| **Duur** | |
+| **Formaat** | {{FORMAAT}} (vastgelegd in `video.json`) |
+| **Duur** | {{DUUR}} |
 | **Status** | concept · stills · akkoord · MOV's geleverd · in Premiere · geëxporteerd |
 
 ## Concept (na akkoord hier vastleggen)
@@ -22,3 +23,4 @@
 - `05_premiere/`: `.prproj` van deze video
 - `06_export/`: eindvideo uit Premiere
 - `_archief/`: automatische back-ups vóór overschrijven
+- `_code/`: broncode van de animaties van deze video (compositie, render-script). Staat in git, zodat je later opnieuw kunt renderen

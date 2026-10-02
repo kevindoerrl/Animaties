@@ -15,7 +15,7 @@
 | B | 00:00.0 → 00:03.0 | Locatie: grote vlog-titel "JAN THIEL beach" + Curaçao-pill | idem | ❌ niet gekozen |
 | C | 00:00.0 → 00:03.0 | Locatie: paspoort-stempel die op beeld klapt | idem | ❌ niet gekozen |
 
-MOV: `04_animaties/vlog_locatie_kaart_v1.mov` (60fps, 68 MB). Geleverd als één download: `vlog_locatie_kaart_v1_30fps_klein.mov` (30fps, ProRes 4444 q9, 26 MB, past onder de uploadlimiet). Compositie-bron: `02_analyse/compositie/` (HTML + Playwright-renderer, kaart = Natural Earth 10m).
+MOV: `04_animaties/vlog_locatie_kaart_v1.mov` (60fps, 68 MB). Geleverd als één download: `vlog_locatie_kaart_v1_30fps_klein.mov` (30fps, ProRes 4444 q9, 26 MB, past onder de uploadlimiet). Compositie-bron: `_code/` (HTML + Playwright-renderer, kaart = Natural Earth 10m; zie `_code/README.md`).
 
 ## Mappen
 - `01_bron/`: aangeleverde MP4 / MP3 / script (nooit aanpassen)

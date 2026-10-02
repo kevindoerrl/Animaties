@@ -28,11 +28,11 @@ De 3 vragen voor elke animatie:
 - **GEEN verzonnen bijtekst (alle klanten).** On-screen tekst is KORT, SIMPEL, KRACHTIG en ondersteunt puur de animatie. Gebruik alleen woorden uit het transcript/de kern (gerecht-naam, cijfer, één accentwoord). NOOIT zelf extra zinnen, kickers, taglines of "random" labels erbij verzinnen. Bij twijfel: minder tekst.
 - **GEEN decoratieve/sfeer-tekst.** Tekst die geen informatie toevoegt aan het doel van de animatie moet WEG — ook al "past" het qua vibe. Voorbeelden die NIET mogen: "Dik & zacht", "Premium", "Zo mooi", losse payoff-regels onder een cijfer. Bij een cijfer-animatie: alleen het cijfer + zijn context-label (bv. "Poolhoogte 35 mm"), verder niets. De animatie/het beeld draagt de sfeer, niet extra woorden.
 - **NOOIT overlappende tekst.** Regels/elementen mogen elkaar nooit raken of overlappen — altijd duidelijke ruimte ertussen (ruime `line-height`, `gap`/marges tussen regels, cijfer los van label). Zeker bij meerregelige koppen en cijfer+label-combinaties: check de still hierop vóór je 'm toont.
-- **POSITIE (alle klanten, elke niet-fullscreen animatie): horizontaal GECENTREERD, verticaal NET ONDER HET MIDDEN.** Zwaartepunt ~y1050-1250 op het 1920-canvas; de ruimte erboven blijft vrij zodat de ingebrande ondertitels er nog boven passen. NOOIT links, rechts, of in een hoek — nooit links-boven. Fullscreen-beats vullen uiteraard wel het hele scherm. (Amix, 23-07-2026, geldt merk-onafhankelijk.)
+- **POSITIE (alle klanten, elke niet-fullscreen animatie): horizontaal GECENTREERD, verticaal NET ONDER HET MIDDEN.** Zwaartepunt ~y1050-1250 op het 1920-canvas; de ruimte erboven blijft vrij zodat de ingebrande ondertitels er nog boven passen. NOOIT links, rechts, of in een hoek — nooit links-boven. Fullscreen-beats vullen uiteraard wel het hele scherm. (Amix, 23-07-2026, geldt merk-onafhankelijk.) **Uitzondering liggend (YouTube, 16:9) zonder ingebrande ondertitels:** plaats in de vrije zone naast de spreker (check de frame-analyse), zoals de Curaçao-kaart linksboven bij `vlog/2026-10-02_jan-thiel-beach` (gekozen 02-10-2026).
 - **MAX animaties per video: 12-15 absoluut maximum** — per video bepalen hoeveel er écht nodig zijn. Richtlijn: 3-4 voor ≤30s, 5-8 voor >45s, meer alleen als de klant er expliciet om vraagt. Referentieniveau: 1 event per ~7-8 seconden (Dries de goede UGC-stijl)
 - **Graphic Insert Screens tellen ook mee** — een volledig grijs/wit scherm dat de video vervangt is ook een animatie-event
 - **Altijd MOV met alpha-channel** (ProRes 4444 + yuva444p10le)
-- **9:16 vertical, 1080×1920, 30fps**
+- **Formaat per klant én per video.** Standaard 9:16 staand, 1080×1920, 30fps (TikTok/Reels/Shorts). Het formaat staat in `KLANTEN/<klant>/01_brand/brand.json` → `formaat` (klant-standaard) en per video in `video.json` (`npm run video` meet het uit de bron). Render ALTIJD op het formaat uit `video.json`: een liggende YouTube-vlog van 1920×1080 @ 60fps krijgt dus een 1920×1080 @ 60fps-MOV. `npm run check` en `npm run preview` lezen dit zelf.
 - **GEEN SFX** — Amix doet dit zelf in Premiere Pro
 - **TWEE HOOK-VARIANTEN PER VIDEO (DeVakshop, en standaard een goed idee bij elke klant).** Lever voor elke video twee écht verschillende hook-animaties op zodat Amix kan kiezen. Verschil moet in de hookzin en de opbouw zitten — niet twee posities of twee kleuren van hetzelfde ding. Zie `KLANTEN/devakshop/01_brand/brand.json` → `oplevering`.
 - **CODE BEWERK JE OP DRIVE, NIET IN DE WERKKOPIE.** Wijzig altijd `remotion/src/...` op de Drive en kopieer dat daarna naar de lokale werkkopie (`%TEMP%\<klant>-remotion` op Windows, `/private/tmp/<klant>-remotion` op Mac). Andersom raak je de wijziging kwijt als tmp wordt opgeruimd. Dit is al een keer misgegaan met de `FMCanvas`-fix. Geldt ook voor `node_modules`: die kan in tmp half gewist raken en geeft dan een vage `ERR_MODULE_NOT_FOUND`. Los op met `npm ci` in de werkkopie.
@@ -63,9 +63,11 @@ De 3 vragen voor elke animatie:
 
 **ALTIJD als eerste stap:** check of `KLANTEN/<klant>/02_feedback/feedback_log.md` bestaat. Zo ja: lees het volledig. Dit zijn geleerde voorkeuren van eerdere runs. Neem ze mee in elk concept en elke animatie-beslissing.
 
-Als de klant nieuw is (geen map in `KLANTEN/`): `npm run klant -- "Klant Naam" --website https://...`. Dat maakt de complete mappenstructuur aan, inclusief een feedback_log met datum + "eerste run".
+Als de klant nieuw is (geen map in `KLANTEN/`): `npm run klant -- "Klant Naam" --website https://... --formaat tiktok|youtube|1920x1080@60`. Dat maakt de complete mappenstructuur aan, inclusief een feedback_log met datum + "eerste run" en het standaardformaat in brand.json.
 
-Elke nieuwe video: `npm run video -- <klant> "video naam" --bron pad\naar\video.mp4`. Dat geeft `KLANTEN/<klant>/04_videos/<datum>_<video>/` met de bron al in `01_bron/`. Werk daarna alleen in die videomap.
+Elke nieuwe video: `npm run video -- <klant> "video naam" --bron pad\naar\video.mp4`. Dat geeft `KLANTEN/<klant>/04_videos/<datum>_<video>/` met de bron al in `01_bron/` en een `video.json` met het formaat (gemeten uit de bron; overschrijven met `--formaat`). Werk daarna alleen in die videomap. Animatiecode die niet in `remotion/` thuishoort (losse composities, render-scripts) gaat in `_code/` van de video: die staat in git.
+
+Na een sjabloonwijziging: `npm run structuur` vult bestaande klanten en video's aan (voegt alleen toe, overschrijft nooit).
 
 ---
 
@@ -537,7 +539,7 @@ De `npm run`-scripts vinden de root zelf; die werken vanaf elke pc zonder aanpas
 animaties/
 ├── SKILL.md                         ← deze file
 ├── README.md                        ← snelstart + alle commando's
-├── package.json                     ← npm run klant / video / check / prores / png / preview / lokaal / migreer
+├── package.json                     ← npm run klant / video / structuur / check / prores / png / preview / lokaal / migreer
 ├── scripts/                         ← tooling (Node, werkt op Windows + Mac)
 ├── REFERENCES/                      ← klant-onafhankelijke stijl-analyses
 ├── LOTTIE_LIBRARY/                  ← herbruikbare Lottie JSON's
@@ -546,27 +548,31 @@ animaties/
     ├── _TEMPLATE/                   ← sjabloon, NIET handmatig kopiëren, gebruik npm run klant
     └── <klant>/
         ├── KLANT.md                 ← contact, afspraken, tone of voice, do's & don'ts
+        ├── 00_admin/                ← briefings, offertes, contracten, planning (niet in git)
         ├── 01_brand/
-        │   ├── brand.json           ← kleuren, fonts, logo-paden, fixed_outro, oplevering
+        │   ├── brand.json           ← kleuren, fonts, logo-paden, formaat, fixed_outro, oplevering
         │   ├── brandguide/          ← brand guide-PDF's, huisstijlhandboek
         │   ├── logo/                ← SVG/PNG, licht/donker/wit
         │   ├── fonts/               ← .otf/.ttf/.woff2 + licentie
         │   ├── iconen/              ← officiële merk-iconen
         │   ├── beeldmateriaal/      ← productfoto's, screenshots
-        │   └── lottie/              ← klant-specifieke Lottie's
+        │   ├── lottie/              ← klant-specifieke Lottie's
+        │   └── premiere/            ← vaste intro/outro, .mogrt-templates, LUT's, export-presets
         ├── 02_feedback/
         │   └── feedback_log.md      ← LEES VÓÓR ELKE RUN
         ├── 03_referenties/          ← voorbeeldvideo's die de klant goed vindt
         └── 04_videos/
             └── <JJJJ-MM-DD>_<video>/
                 ├── VIDEO.md         ← status + goedgekeurd concept + animatielijst
+                ├── video.json       ← formaat (breedte, hoogte, fps) + bron: hier rendert alles op
                 ├── 01_bron/         ← aangeleverde MP4/MP3/script (nooit wijzigen)
                 ├── 02_analyse/      ← transcript.json, frames/, concept-notities
                 ├── 03_stills/       ← <naam>_v1.png + <naam>_v1_preview.png
                 ├── 04_animaties/    ← ProRes 4444 MOV's met alpha → Premiere
                 ├── 05_premiere/     ← .prproj van deze video
                 ├── 06_export/       ← eindvideo uit Premiere
-                └── _archief/        ← back-ups vóór overschrijven
+                ├── _archief/        ← back-ups vóór overschrijven
+                └── _code/           ← broncode van de animaties van deze video (in git)
 ```
 
 **Remotion-assets:** Remotion leest assets uit `remotion/public/brands/<klant>/`. Bron van
@@ -588,6 +594,6 @@ oude mappen pas weggooien na controle.
 - ❌ Nooit een versie overschrijven
 - ❌ Geen MP4-output (altijd MOV met alpha)
 - ❌ Geen bestanden buiten `KLANTEN/<klant>/04_videos/<video>/` (niet op Desktop, niet in tmp, niet in losse `OUT/`-mappen)
-- ❌ Geen MOV opleveren zonder groene `npm run check`
+- ❌ Geen MOV opleveren zonder groene `npm run check` (controleert tegen het formaat in `video.json`)
 - ❌ Niet meer dan 4 animaties per video
 - ❌ Feedback niet loggen is niet toegestaan — elke iteratie → feedback_log.md

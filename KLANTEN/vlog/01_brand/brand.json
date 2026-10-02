@@ -9,12 +9,25 @@
     "achtergrond": "#000000"
   },
   "fonts": {
-    "heading": { "family": "", "weight": 900, "bestand": "fonts/" },
-    "body": { "family": "", "weight": 500, "bestand": "fonts/" }
+    "heading": {
+      "family": "",
+      "weight": 900,
+      "bestand": "fonts/"
+    },
+    "body": {
+      "family": "",
+      "weight": 500,
+      "bestand": "fonts/"
+    }
   },
   "logo": {
     "primair": "logo/logo.svg",
     "wit": "logo/logo_wit.svg"
+  },
+  "formaat": {
+    "breedte": 1920,
+    "hoogte": 1080,
+    "fps": 60
   },
   "fixed_outro": null,
   "oplevering": {

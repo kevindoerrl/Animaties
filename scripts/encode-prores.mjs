@@ -1,9 +1,10 @@
 // (Her)encodeert naar Premiere-veilige ProRes 4444 met alpha via prores_ks.
 // Input: een MOV (bv. videotoolbox/qtrle die Premiere niet pakt) of een PNG-sequence-map.
-// Gebruik: npm run prores -- <input.mov | map-met-pngs> [--out uit.mov] [--fps 30]
+// Gebruik: npm run prores -- <input.mov | map-met-pngs> [--out uit.mov] [--fps 60]
+// Zonder --fps wordt bij een PNG-map de fps van de video gebruikt (video.json / brand.json, anders 30).
 import fs from "node:fs";
 import path from "node:path";
-import { run, parseArgs, fail, PRORES_ARGS, backupVoorOverschrijven } from "./lib.mjs";
+import { run, parseArgs, fail, PRORES_ARGS, backupVoorOverschrijven, verwachtFormaat } from "./lib.mjs";
 
 const { pos, opt } = parseArgs();
 const input = pos[0];
@@ -18,7 +19,7 @@ if (isMap) {
   const m = pngs[0].match(/^(.*?)(\d+)\.png$/i);
   if (!m) fail(`Kan nummering niet afleiden uit "${pngs[0]}" (verwacht bv. frame_0001.png)`);
   const pattern = path.join(input, `${m[1]}%0${m[2].length}d.png`);
-  inArgs = ["-framerate", String(opt.fps || 30), "-start_number", String(Number(m[2])), "-i", pattern];
+  inArgs = ["-framerate", String(opt.fps || verwachtFormaat(opt.out || input).fps), "-start_number", String(Number(m[2])), "-i", pattern];
 } else inArgs = ["-i", input];
 
 const out = opt.out || (isMap ? `${input.replace(/[\\/]+$/, "")}.mov` : input.replace(/\.mov$/i, "") + "_prores.mov");

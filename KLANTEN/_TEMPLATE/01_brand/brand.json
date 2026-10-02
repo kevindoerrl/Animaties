@@ -16,6 +16,7 @@
     "primair": "logo/logo.svg",
     "wit": "logo/logo_wit.svg"
   },
+  "formaat": { "breedte": 1080, "hoogte": 1920, "fps": 30 },
   "fixed_outro": null,
   "oplevering": {
     "hook_varianten": 2,

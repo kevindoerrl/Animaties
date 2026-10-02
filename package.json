@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "description": "Animatie-factory: klantstructuur + Premiere-veilige ProRes 4444 tooling (Windows & Mac)",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "klant": "node scripts/nieuwe-klant.mjs",
     "video": "node scripts/nieuwe-video.mjs",
@@ -12,6 +14,7 @@
     "png": "node scripts/naar-png.mjs",
     "preview": "node scripts/preview-overlay.mjs",
     "lokaal": "node scripts/lokale-kopie.mjs",
-    "migreer": "node scripts/migreer.mjs"
+    "migreer": "node scripts/migreer.mjs",
+    "structuur": "node scripts/structuur.mjs"
   }
 }
