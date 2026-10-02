@@ -526,9 +526,12 @@ setx ANIMATIES_ROOT "G:\Mijn Drive\Amix Claude Code\Skills\animaties"
 De root is de map waarin deze `SKILL.md` staat (`$env:ANIMATIES_ROOT`):
 
 ```
-Windows:  G:\Mijn Drive\Amix Claude Code\Skills\animaties\        (driveletter kan per pc verschillen)
+Windows:  %USERPROFILE%\Videos\Animaties\                         (Verkenner → Video's → Animaties; aanbevolen)
+          G:\Mijn Drive\Amix Claude Code\Skills\animaties\        (alternatief op Google Drive; driveletter kan per pc verschillen)
 Mac:      /Users/amix/Library/CloudStorage/GoogleDrive-amixyt.contact@gmail.com/Mijn Drive/Amix Claude Code/Skills/animaties/
 ```
+
+Staat de root in Video's, dan leest Premiere al van lokale schijf en is `npm run lokaal` niet nodig.
 
 Gebruik altijd dit pad als root. Alle relatieve paden in dit bestand zijn relatief aan deze root.
 De `npm run`-scripts vinden de root zelf; die werken vanaf elke pc zonder aanpassing.

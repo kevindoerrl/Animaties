@@ -5,13 +5,23 @@ Werkt op Windows én Mac. De werkregels voor Claude staan in [`SKILL.md`](SKILL.
 
 ## Eenmalig instellen (Windows)
 
+De projectmap staat in **Verkenner → Video's → Animaties** (`%USERPROFILE%\Videos\Animaties`).
+Premiere leest daar van je eigen schijf, dus geen gedoe met de Google Drive-mount.
+
+1. Download de ZIP van deze repo (GitHub → *Code* → *Download ZIP*), pak hem uit in je map
+   **Video's** en hernoem de uitgepakte map naar `Animaties`.
+   Heb je git: `git clone <repo-url> "$env:USERPROFILE\Videos\Animaties"`.
+2. Tools installeren en de root instellen (PowerShell):
+
 ```powershell
 winget install OpenJS.NodeJS.LTS
 winget install Gyan.FFmpeg
-setx ANIMATIES_ROOT "G:\Mijn Drive\Amix Claude Code\Skills\animaties"
+setx ANIMATIES_ROOT "$env:USERPROFILE\Videos\Animaties"
 ```
-Open daarna een nieuwe terminal. Tip: zet Google Drive for desktop op **Bestanden spiegelen**
-(of maak `KLANTEN\` *offline beschikbaar*). Premiere leest dan van echte schijf in plaats van de stream-mount.
+Open daarna een nieuwe terminal.
+
+Liever op Google Drive (bv. om met meerdere pc's te werken)? Zet `ANIMATIES_ROOT` dan op de Drive-map
+en zet Drive for desktop op **Bestanden spiegelen**, anders leest Premiere van de stream-mount.
 
 ## Dagelijks gebruik
 
