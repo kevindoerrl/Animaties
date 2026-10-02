@@ -1,0 +1,22 @@
+# Media hoort op Google Drive, niet in git. Alleen structuur, brand.json en notities worden getrackt.
+KLANTEN/*/04_videos/**
+!KLANTEN/*/04_videos/**/
+!KLANTEN/*/04_videos/**/*.md
+!KLANTEN/*/04_videos/**/.gitkeep
+!KLANTEN/_TEMPLATE/**
+
+*.mov
+*.mp4
+*.mxf
+*.wav
+*.mp3
+*.prproj
+*.prpref
+Adobe Premiere Pro Auto-Save/
+Adobe Premiere Pro Audio Previews/
+Adobe Premiere Pro Video Previews/
+
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
