@@ -12,9 +12,9 @@
 
 | # | Tijd | Type | Spoken trigger | Status |
 |---|---|---|---|---|
-| A | 00:00.767 → 00:02.42 (frame 46 →) | Locatie: kaartje Nederland, pin valt op Spijkenisse | ondertitel "In Beverveen" (frame 46–89) | stills v1 |
-| B | idem | Locatie: blauw plaatsnaambord "Beverveen / Spijkenisse" klapt naar voren | idem | stills v1 |
-| C | idem | Locatie: sticker met pin, "BEVERVEEN" typt in | idem | stills v1 |
+| A | 00:00.767 → 00:02.42 (frame 46 →) | Locatie: kaartje Nederland, pin valt op Spijkenisse | ondertitel "In Beverveen" (frame 46–89) | ❌ niet gekozen |
+| B | idem | Locatie: blauw plaatsnaambord "Beverveen / Spijkenisse" klapt naar voren | idem | ✅ gekozen · MOV v1 geleverd |
+| C | idem | Locatie: sticker met pin, "BEVERVEEN" typt in | idem | ❌ niet gekozen |
 
 MOV = hele clip (2,5s, 150 frames): op 0:00 boven de clip leggen, dan start hij precies op "In Beverveen".
 Plek: gecentreerd onder de ingebrande ondertitel (y≈1290–1630). Code: `_code/` (zie `_code/comp.html`).
@@ -28,3 +28,4 @@ Plek: gecentreerd onder de ingebrande ondertitel (y≈1290–1630). Code: `_code
 - `06_export/`: eindvideo uit Premiere
 - `_archief/`: automatische back-ups vóór overschrijven
 - `_code/`: broncode van de animaties van deze video (compositie, render-script). Staat in git, zodat je later opnieuw kunt renderen
+MOV: `04_animaties/spijkenisse_bord_v1.mov` (1080×1920, 60fps, 2,5s, 27 MB). Zichtbaar frame 47 → 145.
