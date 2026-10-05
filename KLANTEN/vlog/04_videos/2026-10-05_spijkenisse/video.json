@@ -1,0 +1,11 @@
+{
+  "klant": "vlog",
+  "video": "spijkenisse",
+  "datum": "2026-10-05",
+  "formaat": {
+    "breedte": 1080,
+    "hoogte": 1920,
+    "fps": 60
+  },
+  "bron": "ae6e364b-Sequence_01_2.mp4"
+}

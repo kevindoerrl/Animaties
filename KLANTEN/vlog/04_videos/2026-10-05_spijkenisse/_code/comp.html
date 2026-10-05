@@ -1,0 +1,181 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/inter700.ttf)}
+@font-face{font-family:Inter;font-weight:900;src:url(fonts/inter900.ttf)}
+:root{--magenta:#E8177D;--orange:#FF8A00;--ink:#0E2A3B;--sea1:#8FD3EE;--sea2:#58B6E0;--land:#F7E4B6;--nlblue:#0B4EA2}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden}
+.layer{position:absolute;inset:0;display:none}
+.abs{position:absolute}
+</style></head>
+<body>
+<!--
+  Video: vlog/2026-10-05_spijkenisse · 1080×1920 @ 60fps · 2,5s
+  Trigger: ondertitel "In Beverveen" in beeld van frame 46 t/m 89 (0,767s → 1,483s).
+  De MOV is even lang als de clip: leg hem op 0:00 boven de clip, dan valt hij precies goed.
+  Plek: gecentreerd, direct ONDER de ingebrande ondertitel (die staat op y≈1160).
+-->
+
+<!-- ============ A: KAART NEDERLAND + PIN ============ -->
+<div id="A" class="layer">
+  <div id="A_card" class="abs" style="left:150px;top:1290px;width:780px;height:340px;transform-origin:50% 50%">
+    <div class="abs" style="inset:0;border-radius:36px;background:#fff;box-shadow:0 30px 70px rgba(10,30,50,.40),0 6px 18px rgba(10,30,50,.25)"></div>
+    <div class="abs" style="left:16px;top:16px;width:308px;height:308px;border-radius:26px;overflow:hidden;background:linear-gradient(160deg,var(--sea1),var(--sea2))">
+      <svg width="308" height="308" viewBox="0 0 308 308" class="abs" style="inset:0">
+        <defs><pattern id="waves" width="40" height="20" patternUnits="userSpaceOnUse"><path d="M0 10 q10 -6 20 0 t20 0" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="2.2"/></pattern></defs>
+        <rect width="308" height="308" fill="url(#waves)"/>
+        <g id="A_shadow" fill="rgba(5,60,90,.28)" transform="translate(4 6)"></g>
+        <g id="A_land" fill="var(--land)" stroke="#fff" stroke-width="3" stroke-linejoin="round"></g>
+        <g id="A_ripples"></g>
+        <g id="A_pin">
+          <ellipse id="A_pinShadow" rx="12" ry="4.5" fill="rgba(0,0,0,.35)"/>
+          <g id="A_pinBody">
+            <path d="M0 0 C -5 -11 -20 -23 -20 -38 A 20 20 0 1 1 20 -38 C 20 -23 5 -11 0 0 Z" fill="var(--magenta)" stroke="#fff" stroke-width="3.5"/>
+            <circle cx="0" cy="-38" r="7.5" fill="#fff"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="abs" style="left:344px;right:16px;top:0;bottom:0;overflow:hidden">
+      <div id="A_t1" class="abs" style="left:10px;top:92px;font:400 92px/1.05 Anton;color:var(--ink);letter-spacing:1px;white-space:nowrap">BEVERVEEN</div>
+      <div id="A_t2" class="abs" style="left:14px;top:206px;font:900 28px/1 Inter;color:var(--magenta);letter-spacing:8px;white-space:nowrap">SPIJKENISSE</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ B: PLAATSNAAMBORD ============ -->
+<div id="B" class="layer">
+  <div class="abs" style="left:150px;top:1290px;width:780px;height:300px;perspective:1400px">
+    <div id="B_sign" class="abs" style="inset:0;transform-origin:50% 0%;border-radius:22px;background:var(--nlblue);box-shadow:0 26px 60px rgba(0,20,60,.45),inset 0 2px 0 rgba(255,255,255,.25)">
+      <div class="abs" style="inset:14px;border:7px solid #fff;border-radius:12px"></div>
+      <div id="B_t1" class="abs" style="left:0;right:0;top:46px;text-align:center;font:700 128px/1 Inter;color:#fff;letter-spacing:-1px">Beverveen</div>
+      <div id="B_t2" class="abs" style="left:0;right:0;top:196px;text-align:center;font:700 46px/1 Inter;color:#fff;opacity:.95">Spijkenisse</div>
+      <div id="B_glare" class="abs" style="inset:0;border-radius:22px;overflow:hidden;pointer-events:none">
+        <div id="B_glareBar" class="abs" style="top:-40%;width:140px;height:180%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:rotate(18deg)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ C: LOCATIE-STICKER ============ -->
+<div id="C" class="layer">
+  <div id="C_sticker" class="abs" style="left:170px;top:1320px;width:740px;height:190px;transform-origin:50% 50%">
+    <div class="abs" style="inset:0;border-radius:100px;background:#fff;box-shadow:0 22px 50px rgba(0,0,0,.35),0 0 0 8px rgba(255,255,255,.55)"></div>
+    <div id="C_icon" class="abs" style="left:26px;top:26px;width:138px;height:138px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--magenta));display:flex;align-items:center;justify-content:center">
+      <svg width="64" height="82" viewBox="-26 -78 52 80"><path d="M0 0 C -6 -14 -26 -30 -26 -50 A 26 26 0 1 1 26 -50 C 26 -30 6 -14 0 0 Z" fill="#fff"/><circle cx="0" cy="-50" r="10" fill="var(--magenta)"/></svg>
+    </div>
+    <div class="abs" style="left:192px;top:34px;right:30px;height:130px;overflow:hidden">
+      <div id="C_t1" class="abs" style="left:0;top:0;font:900 74px/1 Inter;color:var(--ink);letter-spacing:-1px;white-space:nowrap"></div>
+      <div id="C_t2" class="abs" style="left:2px;top:84px;font:700 36px/1 Inter;color:#6B7A86;white-space:nowrap">Spijkenisse</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={
+  outExpo:x=>x>=1?1:1-Math.pow(2,-10*x),
+  inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
+  outBack:x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,
+  outCubic:x=>1-Math.pow(1-x,3),
+};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const lerp=(a,b,p)=>a+(b-a)*p;
+
+const FPS=60, D=150/FPS;      // MOV = hele clip (2,5s)
+const T0=46/FPS;              // "In Beverveen" verschijnt
+const UIT=2.42;               // uitgang klaar vóór het laatste frame (2,483s)
+const EXIT=0.3;
+
+// ---------- kaart NL (Natural Earth 10m) ----------
+let NL=null;
+const SPIJK=[4.3292,51.8447];
+function proj([lon,lat]){
+  const k=Math.cos(52.15*Math.PI/180), s=88;
+  const cx=(3.35+7.2)/2, cy=(50.75+53.56)/2;
+  return [154+(lon-cx)*k*s, 158-(lat-cy)*s];
+}
+function setupA(){
+  const d=NL.map(r=>'M'+r.map(proj).map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L')+' Z').join(' ');
+  document.getElementById('A_land').innerHTML=`<path id="A_path" d="${d}"/>`;
+  document.getElementById('A_shadow').innerHTML=`<path d="${d}"/>`;
+  const p=document.getElementById('A_path'), len=p.getTotalLength();
+  p.style.strokeDasharray=len; p.dataset.len=len;
+}
+const C_TXT='BEVERVEEN';
+
+function render(style,t){
+  for(const id of ['A','B','C']) document.getElementById(id).style.display=id===style?'block':'none';
+  const u=t-T0;                                   // lokale tijd sinds het woord valt
+  const exit=eased(t,UIT-EXIT,UIT,ease.inExpo);
+  const zicht=u>=0 && t<UIT;
+  const lay=document.getElementById(style); lay.style.visibility=zicht?'visible':'hidden';
+  if(!zicht) return;
+
+  if(style==='A'){
+    const p=eased(u,0,0.4,ease.outExpo);
+    const c=document.getElementById('A_card');
+    c.style.transform=`translateY(${Math.sin(u*1.8)*3}px) rotate(${lerp(-7,-2,p)}deg) scale(${lerp(1.9,1,p)*lerp(1,0.82,exit)})`;
+    c.style.filter=`blur(${lerp(24,0,p)+exit*16}px) saturate(${lerp(.4,1,p)})`;
+    c.style.opacity=Math.min(eased(u,0,0.12,ease.outCubic),1-exit);
+    const path=document.getElementById('A_path'), len=+path.dataset.len;
+    path.style.strokeDashoffset=len*(1-eased(u,0.08,0.5,ease.inOutCubic));
+    const fp=eased(u,0.3,0.55,ease.outCubic);
+    path.style.fillOpacity=fp; document.getElementById('A_shadow').style.opacity=fp;
+    const [px,py]=proj(SPIJK);
+    const pp=eased(u,0.38,0.68,ease.outBack);
+    document.getElementById('A_pin').setAttribute('transform',`translate(${px} ${py})`);
+    document.getElementById('A_pinBody').setAttribute('transform',`translate(0 ${lerp(-200,0,pp)}) scale(${lerp(1.5,1,eased(u,0.38,0.6,ease.outExpo))})`);
+    document.getElementById('A_pinBody').style.opacity=u<0.38?0:1;
+    const sh=document.getElementById('A_pinShadow'); sh.setAttribute('rx',lerp(3,12,pp)); sh.style.opacity=u<0.38?0:clamp(pp);
+    let r='';
+    for(let k=0;k<2;k++){ const st=0.62+k*0.35; if(u<st) continue; const q=((u-st)%0.7)/0.7;
+      r+=`<ellipse cx="${px}" cy="${py}" rx="${6+q*44}" ry="${2.5+q*16}" fill="none" stroke="#fff" stroke-width="${3.5*(1-q)+.4}" opacity="${(1-q)*.9}"/>`; }
+    document.getElementById('A_ripples').innerHTML=r;
+    const t1=eased(u,0.2,0.6,ease.outExpo), t2=eased(u,0.34,0.72,ease.outExpo);
+    const e1=document.getElementById('A_t1'), e2=document.getElementById('A_t2');
+    e1.style.transform=`translateY(${lerp(140,0,t1)}px)`; e1.style.filter=`blur(${lerp(8,0,t1)}px)`;
+    e2.style.transform=`translateY(${lerp(70,0,t2)}px)`; e2.style.opacity=t2; e2.style.letterSpacing=lerp(22,8,t2)+'px';
+  }
+
+  if(style==='B'){
+    // bord klapt van boven naar voren (rotateX), komt van ver (klein + blur)
+    const p=eased(u,0,0.5,ease.outBack), pz=eased(u,0,0.35,ease.outExpo);
+    const s=document.getElementById('B_sign');
+    const wob=u>0.45?Math.exp(-(u-0.45)*6)*Math.sin((u-0.45)*18)*4:0;
+    s.style.transform=`rotateX(${lerp(-95,0,p)+wob}deg) scale(${lerp(0.6,1,pz)*lerp(1,0.85,exit)})`;
+    s.style.filter=`blur(${lerp(14,0,pz)+exit*16}px)`;
+    s.style.opacity=Math.min(eased(u,0,0.1,ease.outCubic),1-exit);
+    const t1=eased(u,0.14,0.5,ease.outExpo), t2=eased(u,0.26,0.6,ease.outExpo);
+    const e1=document.getElementById('B_t1'), e2=document.getElementById('B_t2');
+    e1.style.transform=`translateY(${lerp(30,0,t1)}px)`; e1.style.opacity=t1;
+    e2.style.transform=`translateY(${lerp(20,0,t2)}px)`; e2.style.opacity=t2*.95;
+    const g=eased(u,0.55,1.05,ease.inOutCubic);
+    document.getElementById('B_glareBar').style.left=lerp(-200,900,g)+'px';
+  }
+
+  if(style==='C'){
+    const pop=eased(u,0,0.42,ease.outBack), pz=eased(u,0,0.3,ease.outExpo);
+    const st=document.getElementById('C_sticker');
+    st.style.transform=`translateY(${Math.sin(u*2)*3}px) rotate(${lerp(14,-3,pop)}deg) scale(${lerp(0.25,1,pop)*lerp(1,0.85,exit)})`;
+    st.style.filter=`blur(${lerp(12,0,pz)+exit*16}px)`;
+    st.style.opacity=Math.min(eased(u,0,0.1,ease.outCubic),1-exit);
+    const ib=eased(u,0.12,0.5,ease.outBack);
+    document.getElementById('C_icon').style.transform=`scale(${lerp(0,1,ib)}) rotate(${lerp(-40,0,ib)}deg)`;
+    // tekst typt in (letter voor letter)
+    const n=Math.round(lerp(0,C_TXT.length,eased(u,0.18,0.55,x=>x)));
+    document.getElementById('C_t1').textContent=C_TXT.slice(0,n);
+    const t2=eased(u,0.5,0.8,ease.outExpo), e2=document.getElementById('C_t2');
+    e2.style.opacity=t2; e2.style.transform=`translateY(${lerp(24,0,t2)}px)`;
+  }
+}
+window.init=async()=>{
+  NL=await (await fetch('nederland.json')).json();
+  await document.fonts.load('92px Anton'); await document.fonts.load('900 74px Inter'); await document.fonts.load('700 46px Inter');
+  await document.fonts.ready; setupA();
+};
+window.render=render; window.D=D;
+</script>
+</body></html>

@@ -22,7 +22,8 @@ const port = srv.address().port;
 
 const [mode, style, a, out] = process.argv.slice(2);
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+const { breedte: width, hoogte: height } = JSON.parse(fs.readFileSync(path.join(dir, "..", "video.json"), "utf8")).formaat;
+const page = await browser.newPage({ viewport: { width, height } });
 await page.goto(`http://localhost:${port}/comp.html`);
 await page.evaluate(() => window.init());
 
