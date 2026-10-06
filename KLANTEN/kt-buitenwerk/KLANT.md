@@ -4,7 +4,7 @@
 |---|---|
 | **Instagram / TikTok** | @ktbuitenwerk |
 | **Contactpersoon** | Twan & Kevin (Spijkenisse) |
-| **E-mail / telefoon** | |
+| **E-mail / telefoon** | +31 6 23388576 |
 | **Aangemaakt** | 2026-10-06 |
 
 ## Afspraken & oplevering
