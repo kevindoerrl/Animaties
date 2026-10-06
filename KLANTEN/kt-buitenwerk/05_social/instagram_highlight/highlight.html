@@ -199,7 +199,7 @@ const CONFIG = {
   contact: {
     titel: "Klaar voor een<br><em>nette</em> tuin?",
     sub: "Vertel ons wat er moet gebeuren. We plannen zo snel mogelijk een afspraak in.",
-    knop: "Stuur ons een DM",
+    knop: "Stuur ons een appje",
   },
 };
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -332,8 +332,8 @@ slides.push({ naam: `${nr(n++)}_contact`, type: "story", html: `<section class="
     <div class="eyebrow">Neem contact op</div>
     <h1>${CONFIG.contact.titel}</h1>
     <p class="sub">${CONFIG.contact.sub}</p>
-    <div class="knop">${icoon("contact", 2.6)}${CONFIG.contact.knop}</div>
-    <div class="socials"><span>${icoon("whatsapp", 2.4, 'style="color:#25D366"')}App ons: ${CONFIG.telefoon}</span><span>${icoon("insta", 2.4)}${CONFIG.instagram}</span><span>${icoon("tiktok", 2.6)}${CONFIG.tiktok}</span></div>
+    <div class="knop">${icoon("whatsapp", 2.6, 'style="color:#25D366"')}${CONFIG.contact.knop}</div>
+    <div class="socials"><span>${icoon("whatsapp", 2.4, 'style="color:#25D366"')}${CONFIG.telefoon}</span><span>${icoon("insta", 2.4)}${CONFIG.instagram}</span><span>${icoon("tiktok", 2.6)}${CONFIG.tiktok}</span></div>
   </div>
   ${voet("Spijkenisse en omgeving")}
 </div></section>` });
