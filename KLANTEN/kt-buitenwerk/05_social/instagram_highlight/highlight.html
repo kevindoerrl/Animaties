@@ -219,7 +219,7 @@ const ICONEN = {
   insta: `<rect x="8" y="8" width="32" height="32" rx="9"/><circle cx="24" cy="24" r="7"/><path d="M33 15h.01" stroke-width="3.5"/>`,
   tiktok: `<path d="M27 8v21a7 7 0 1 1-7-7"/><path d="M27 8c1 5 5 8 10 8"/>`,
   voorna: `<path d="M22 8l3.5 10.5L36 22l-10.5 3.5L22 36l-3.5-10.5L8 22l10.5-3.5z"/><path d="M37 30l1.5 4.5L43 36l-4.5 1.5L37 42l-1.5-4.5L31 36l4.5-1.5z"/>`,
-  telefoon: `<path d="M14 7h-4a3 3 0 0 0-3 3c0 17 14 31 31 31a3 3 0 0 0 3-3v-4l-8-4-4 4c-5-2-9-6-11-11l4-4z"/>`,
+  whatsapp: `<path d="M24 6a18 18 0 0 0-15.5 27.2L6 42l9-2.4A18 18 0 1 0 24 6z"/><path d="M18.5 15.5c-1.2 0-3 1.4-3 3.8 0 5.2 6.4 12.6 13 13.4 2.5.3 4-1.3 4.2-2.6l.2-1.6-4.6-2.1-1.9 2.1c-2.6-1.1-5.1-3.6-6.2-6.2l2.1-1.9-2.1-4.6z"/>`,
   pijl: `<path d="M10 24h28M28 14l10 10-10 10"/>`,
 };
 const icoon = (naam, sw = 2, extra = "") => `<svg viewBox="0 0 48 48" ${S} stroke-width="${sw}" ${extra}>${ICONEN[naam]}</svg>`;
@@ -333,7 +333,7 @@ slides.push({ naam: `${nr(n++)}_contact`, type: "story", html: `<section class="
     <h1>${CONFIG.contact.titel}</h1>
     <p class="sub">${CONFIG.contact.sub}</p>
     <div class="knop">${icoon("contact", 2.6)}${CONFIG.contact.knop}</div>
-    <div class="socials"><span>${icoon("telefoon", 2.4)}${CONFIG.telefoon}</span><span>${icoon("insta", 2.4)}${CONFIG.instagram}</span><span>${icoon("tiktok", 2.6)}${CONFIG.tiktok}</span></div>
+    <div class="socials"><span>${icoon("whatsapp", 2.4, 'style="color:#25D366"')}App ons: ${CONFIG.telefoon}</span><span>${icoon("insta", 2.4)}${CONFIG.instagram}</span><span>${icoon("tiktok", 2.6)}${CONFIG.tiktok}</span></div>
   </div>
   ${voet("Spijkenisse en omgeving")}
 </div></section>` });
