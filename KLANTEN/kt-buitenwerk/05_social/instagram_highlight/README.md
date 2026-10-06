@@ -4,11 +4,11 @@ Klaar om te uploaden staat in `export/`:
 
 | Map | Wat | Formaat |
 |---|---|---|
-| `export/stories/` | 9 story-slides: wie zijn wij, diensten, tuinonderhoud, snoeiwerk, opknappen, klussen, werkwijze, belofte, contact | 1080×1920 |
-| `export/covers/` | 8 highlight-covers | 1080×1080 |
+| `export/stories/` | 10 story-slides: wie zijn wij, diensten, tuinonderhoud, snoeiwerk, opknappen, klussen, voor & na, werkwijze, belofte, contact | 1080×1920 |
+| `export/covers/` | 9 highlight-covers | 1080×1080 |
 
 ## Plaatsen op Instagram
-1. Plaats de stories in volgorde (`00` t/m `08`) als story.
+1. Plaats de stories in volgorde (`00` t/m `09`) als story.
 2. Profiel → **+** (Nieuw) → Highlight → selecteer de stories → **Cover bewerken** → upload een cover uit `export/covers/`.
 3. Eén highlight "Diensten" met alles erin (cover `cover_01_diensten.png` of `cover_00_over-ons.png`), of meerdere highlights met elk hun eigen cover.
 
