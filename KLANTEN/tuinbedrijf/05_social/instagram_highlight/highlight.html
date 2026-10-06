@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram Highlight Tuinbedrijf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Alle tekst en kleuren staan in CONFIG onderaan. Dit is alleen de vormgeving. ── */
+  :root {
+    --forest: #1F3A2B;
+    --forest-2: #2B4E3A;
+    --cream: #F3EEE3;
+    --cream-2: #E9E2D2;
+    --sage: #A9BA98;
+    --gold: #C7A15C;
+    --ink: #17271D;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111; font-family: "Inter", sans-serif; color: var(--ink); }
+  .galerij { display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; zoom: 0.3; }
+  body.render .galerij { padding: 0; gap: 0; zoom: 1; display: block; }
+  body.render .slide:not(.actief) { display: none; }
+
+  .slide { position: relative; overflow: hidden; flex: none; }
+  .story { width: 1080px; height: 1920px; }
+  .cover { width: 1080px; height: 1080px; }
+
+  /* papierstructuur */
+  .slide::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .09; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .donker { background: var(--forest); color: var(--cream); }
+  .licht { background: var(--cream); color: var(--ink); }
+  .donker::after { mix-blend-mode: overlay; opacity: .14; }
+
+  .binnen { position: absolute; inset: 0; padding: 170px 96px 210px; display: flex; flex-direction: column; }
+
+  /* kopregel */
+  .kop { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 28px; letter-spacing: .16em; text-transform: uppercase; }
+  .merk { display: flex; align-items: center; gap: 16px; }
+  .merk svg { width: 44px; height: 44px; }
+  .teller { font-family: "Fraunces", serif; font-weight: 500; letter-spacing: .04em; font-size: 32px; opacity: .6; text-transform: none; }
+
+  .eyebrow { font-weight: 600; font-size: 28px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+  h1, h2 { font-family: "Fraunces", serif; font-weight: 500; letter-spacing: -.02em; }
+  h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--sage); }
+  .licht h1 em, .licht h2 em { color: var(--gold); }
+
+  /* beeldpaneel */
+  .paneel { position: relative; height: 740px; margin-top: 54px; border-radius: 56px; overflow: hidden; background: var(--forest); flex: none; }
+  .paneel.foto { background-size: cover; background-position: center; }
+  .paneel.foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(15,30,20,.35)); }
+  .paneel svg.deco { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .paneel .icoon-groot { position: absolute; left: 50%; top: 50%; width: 300px; height: 300px; transform: translate(-50%, -50%); }
+  .paneel .nummer { position: absolute; left: 44px; bottom: 34px; font-family: "Fraunces", serif; font-style: italic; font-size: 64px; color: var(--sage); opacity: .9; }
+
+  .dienst h1 { font-size: 124px; line-height: 1; margin-top: 18px; color: var(--forest); }
+  .dienst .eyebrow { margin-top: 72px; }
+  .omschrijving { font-size: 38px; line-height: 1.42; margin-top: 30px; color: rgba(23,39,29,.78); max-width: 860px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 16px 14px; margin-top: 44px; }
+  .chip { display: flex; align-items: center; gap: 12px; font-weight: 500; font-size: 30px; padding: 16px 28px 16px 22px; border-radius: 100px; background: var(--cream-2); color: var(--forest); }
+  .chip svg { width: 26px; height: 26px; flex: none; }
+
+  .voet { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 34px; border-top: 2px solid currentColor; border-color: rgba(23,39,29,.15); font-size: 30px; font-weight: 500; }
+  .donker .voet { border-color: rgba(243,238,227,.2); }
+  .voet .pijl { width: 72px; height: 72px; border-radius: 50%; background: var(--forest); display: grid; place-items: center; }
+  .donker .voet .pijl { background: var(--gold); }
+  .voet .pijl svg { width: 34px; height: 34px; }
+
+  /* intro */
+  .intro h1 { font-size: 132px; line-height: 1.02; margin-top: 200px; }
+  .intro .sub { font-size: 38px; line-height: 1.4; margin-top: 36px; opacity: .78; max-width: 800px; }
+  .lijst { margin-top: 86px; }
+  .rij { display: flex; align-items: center; gap: 36px; padding: 30px 0; border-top: 2px solid rgba(243,238,227,.16); }
+  .rij:last-child { border-bottom: 2px solid rgba(243,238,227,.16); }
+  .rij .nr { font-family: "Fraunces", serif; font-style: italic; font-size: 34px; color: var(--gold); width: 56px; }
+  .rij .naam { font-family: "Fraunces", serif; font-size: 54px; font-weight: 500; flex: 1; }
+  .rij svg { width: 54px; height: 54px; opacity: .85; }
+
+  /* werkwijze */
+  .werkwijze h1 { font-size: 124px; line-height: 1.02; margin-top: 18px; color: var(--forest); }
+  .werkwijze .eyebrow { margin-top: 120px; }
+  .stappen { position: relative; margin-top: 90px; display: flex; flex-direction: column; gap: 58px; }
+  .stappen::before { content: ""; position: absolute; left: 43px; top: 40px; bottom: 40px; border-left: 3px dashed rgba(31,58,43,.25); }
+  .stap { position: relative; display: flex; gap: 44px; }
+  .stap .bol { width: 88px; height: 88px; flex: none; border-radius: 50%; background: var(--forest); color: var(--cream); display: grid; place-items: center; font-family: "Fraunces", serif; font-size: 42px; font-weight: 500; box-shadow: 0 0 0 12px var(--cream); }
+  .stap h2 { font-size: 54px; line-height: 1.1; color: var(--forest); margin-top: 8px; }
+  .stap p { font-size: 33px; line-height: 1.42; margin-top: 12px; color: rgba(23,39,29,.75); }
+
+  /* contact */
+  .contact h1 { font-size: 136px; line-height: 1.02; margin-top: 0; }
+  .contact .midden { margin-top: auto; margin-bottom: auto; }
+  .contact .sub { font-size: 40px; line-height: 1.4; margin-top: 44px; opacity: .8; max-width: 820px; }
+  .knop { display: inline-flex; align-items: center; gap: 22px; margin-top: 76px; padding: 36px 56px 36px 44px; border-radius: 100px; background: var(--cream); color: var(--forest); font-weight: 600; font-size: 40px; }
+  .knop svg { width: 50px; height: 50px; }
+  .contact .klein { font-size: 32px; margin-top: 36px; opacity: .65; }
+  .contact .ornament { position: absolute; right: -170px; top: 120px; width: 760px; height: 760px; opacity: .9; }
+
+  /* covers: Instagram snijdt een cirkel uit het midden */
+  .cover { background: var(--forest); display: grid; place-items: center; }
+  .cover .ring { position: absolute; inset: 120px; border-radius: 50%; border: 3px solid rgba(199,161,92,.55); }
+  .cover svg.ci { width: 400px; height: 400px; position: relative; }
+  .cover.alt { background: var(--cream); }
+  .cover.alt .ring { border-color: rgba(31,58,43,.25); }
+</style>
+</head>
+<body>
+<div class="galerij" id="galerij"></div>
+
+<script>
+/* ═══════════════ CONFIG — pas hier naam, teksten en kleuren aan ═══════════════ */
+const CONFIG = {
+  bedrijfsnaam: "Jouw Tuinbedrijf",
+  instagram: "@jouwtuinbedrijf",
+  coverStijl: "donker",            // "donker" (groen) of "licht" (crème)
+  intro: {
+    titel: "Van ontwerp<br>tot <em>onderhoud</em>",
+    sub: "Alles voor een tuin waar je écht van geniet. Uit één hand.",
+  },
+  diensten: [
+    { id: "ontwerp", icoon: "ontwerp", titel: "Tuinontwerp", cover: "Ontwerp",
+      tekst: "Een plan dat past bij je huis, je smaak en hoe je leeft.",
+      punten: ["Persoonlijk advies", "3D-ontwerp", "Beplantingsplan"], foto: "" },
+    { id: "aanleg", icoon: "aanleg", titel: "Tuinaanleg", cover: "Aanleg",
+      tekst: "Van kale grond tot complete tuin. Wij regelen alles van A tot Z.",
+      punten: ["Grondwerk", "Beplanting", "Gazon", "Verlichting"], foto: "" },
+    { id: "bestrating", icoon: "bestrating", titel: "Bestrating", cover: "Bestrating",
+      tekst: "Strak gelegde terrassen en paden die jaren mooi blijven.",
+      punten: ["Keramische tegels", "Natuursteen", "Klinkers"], foto: "" },
+    { id: "schuttingen", icoon: "schutting", titel: "Schuttingen", cover: "Schuttingen",
+      tekst: "Privacy, beschutting en sfeer. Op maat gemaakt en geplaatst.",
+      punten: ["Hout", "Composiet", "Overkappingen", "Pergola's"], foto: "" },
+    { id: "onderhoud", icoon: "onderhoud", titel: "Onderhoud", cover: "Onderhoud",
+      tekst: "Jij geniet, wij houden je tuin het hele jaar in topvorm.",
+      punten: ["Snoeien", "Gazononderhoud", "Seizoensbeurt", "Onderhoudscontract"], foto: "" },
+  ],
+  werkwijze: [
+    ["Kennismaking", "We komen langs, luisteren naar je wensen en bekijken de tuin."],
+    ["Ontwerp & offerte", "Een helder plan met een duidelijke prijs. Geen verrassingen achteraf."],
+    ["Aanleg", "Onze vaste ploeg gaat aan de slag en laat alles netjes achter."],
+    ["Nazorg", "Ook na de oplevering blijven we bereikbaar voor onderhoud."],
+  ],
+  contact: {
+    titel: "Zin in een tuin<br>waar je <em>thuiskomt</em>?",
+    sub: "Plan een vrijblijvend adviesgesprek bij jou in de tuin.",
+    knop: "Stuur ons een DM",
+    klein: "of vraag een offerte aan via de link in bio",
+  },
+};
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+const S = 'fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
+const ICONEN = {
+  blad: `<path d="M10 38C10 21 21 10 38 10C38 27 27 38 10 38Z"/><path d="M10 38L29 19"/><path d="M19 29h7M24 24v-6"/>`,
+  ontwerp: `<rect x="7" y="7" width="34" height="34" rx="4"/><path d="M13 35c5-1 6-7 11-9s8-4 10-12" stroke-dasharray="1 4"/><circle cx="31" cy="30" r="4.5"/><circle cx="16" cy="16" r="3"/><path d="M7 23h6M35 7v5"/>`,
+  aanleg: `<path d="M22 26L37 11"/><path d="M34 8l6 6"/><path d="M17.5 21.5l9 9-5 6c-3 3-8 3-11 0s-3-8 0-11z"/>`,
+  bestrating: `<rect x="7" y="7" width="34" height="34" rx="3"/><path d="M7 18.3h34M7 29.7h34M24 7v11.3M15.5 18.3v11.4M32.5 18.3v11.4M24 29.7V41"/>`,
+  schutting: `<path d="M9 41V16l3.5-5 3.5 5v25M20.5 41V16l3.5-5 3.5 5v25M32 41V16l3.5-5 3.5 5v25"/><path d="M5 22h38M5 34h38"/>`,
+  onderhoud: `<circle cx="14" cy="35" r="5.5"/><circle cx="34" cy="35" r="5.5"/><path d="M18 31L35 8M30 31L13 8"/>`,
+  werkwijze: `<circle cx="11" cy="11" r="4"/><circle cx="37" cy="37" r="4"/><path d="M15 11h15c6.5 0 6.5 13 0 13H18c-6.5 0-6.5 13 0 13h15" stroke-dasharray="1 4.5"/>`,
+  contact: `<path d="M12 8h24a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H22l-8 7v-7h-2a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4z"/><path d="M17 20h.01M24 20h.01M31 20h.01" stroke-width="3.2"/>`,
+  pijl: `<path d="M10 24h28M28 14l10 10-10 10"/>`,
+};
+const icoon = (naam, sw = 2, extra = "") => `<svg viewBox="0 0 48 48" ${S} stroke-width="${sw}" ${extra}>${ICONEN[naam]}</svg>`;
+
+// Botanisch takje: steel met afwisselende blaadjes
+function takje(x, y, lengte, hoek, kleur, dikte = 4, n = 7) {
+  const r = hoek * Math.PI / 180, buig = lengte * .18;
+  const ex = x + Math.cos(r) * lengte, ey = y + Math.sin(r) * lengte;
+  const cx = (x + ex) / 2 - Math.sin(r) * buig, cy = (y + ey) / 2 + Math.cos(r) * buig;
+  let s = `<path d="M${x} ${y}Q${cx} ${cy} ${ex} ${ey}" stroke="${kleur}" stroke-width="${dikte}" fill="none" stroke-linecap="round"/>`;
+  for (let i = 1; i <= n; i++) {
+    const t = i / (n + .6), mt = 1 - t;
+    const px = mt * mt * x + 2 * mt * t * cx + t * t * ex, py = mt * mt * y + 2 * mt * t * cy + t * t * ey;
+    const tx = 2 * mt * (cx - x) + 2 * t * (ex - cx), ty = 2 * mt * (cy - y) + 2 * t * (ey - cy);
+    const a = Math.atan2(ty, tx) * 180 / Math.PI + (i % 2 ? -48 : 48);
+    const L = lengte * .2 * (1 - t * .45), B = L * .36;
+    s += `<path transform="translate(${px} ${py}) rotate(${a})" d="M0 0C${L * .3} ${-B} ${L * .75} ${-B} ${L} 0C${L * .75} ${B} ${L * .3} ${B} 0 0Z" fill="${kleur}"/>`;
+  }
+  const ta = hoek * 1, L = lengte * .14;
+  s += `<path transform="translate(${ex} ${ey}) rotate(${ta})" d="M0 0C${L * .3} ${-L * .36} ${L * .75} ${-L * .36} ${L} 0C${L * .75} ${L * .36} ${L * .3} ${L * .36} 0 0Z" fill="${kleur}"/>`;
+  return s;
+}
+
+function paneelDeco(seed) {
+  const sage = "#A9BA98", diep = "#2B4E3A";
+  const varianten = [
+    takje(-20, 660, 520, -52, diep, 5) + takje(908, -30, 420, 128, diep, 5) + takje(40, 700, 360, -75, sage + "55", 3, 6),
+    takje(908, 680, 520, -125, diep, 5) + takje(-30, 40, 400, 30, diep, 5) + takje(860, 700, 340, -100, sage + "55", 3, 6),
+    takje(-20, 120, 480, 18, diep, 5) + takje(930, 560, 480, -160, diep, 5) + takje(700, 690, 300, -80, sage + "55", 3, 6),
+  ];
+  return `<svg class="deco" viewBox="0 0 888 740" preserveAspectRatio="xMidYMid slice">
+    <circle cx="444" cy="370" r="250" fill="none" stroke="${sage}" stroke-opacity=".18" stroke-width="2"/>
+    <circle cx="444" cy="370" r="196" fill="${diep}"/>
+    <circle cx="444" cy="370" r="320" fill="none" stroke="${sage}" stroke-opacity=".1" stroke-width="2"/>
+    ${varianten[seed % 3]}
+    <circle cx="${[640, 250, 650][seed % 3]}" cy="${[150, 160, 470][seed % 3]}" r="12" fill="#C7A15C"/>
+  </svg>`;
+}
+
+const merk = (kleur) => `<div class="merk" style="color:${kleur}">${icoon("blad", 2.4)}<span>${CONFIG.bedrijfsnaam}</span></div>`;
+const voet = (tekst, donker) => `<div class="voet"><span>${tekst}</span><span class="pijl" style="color:${donker ? "var(--forest)" : "var(--cream)"}">${icoon("pijl", 3)}</span></div>`;
+
+const slides = [];
+const totaal = CONFIG.diensten.length;
+
+slides.push({ naam: "00_intro", type: "story", html: `<section class="slide story donker intro"><div class="binnen">
+  <div class="kop">${merk("var(--cream)")}<span class="teller">Onze diensten</span></div>
+  <h1>${CONFIG.intro.titel}</h1>
+  <p class="sub">${CONFIG.intro.sub}</p>
+  <div class="lijst">${CONFIG.diensten.map((d, i) => `<div class="rij"><span class="nr">0${i + 1}</span><span class="naam">${d.titel}</span>${icoon(d.icoon, 2)}</div>`).join("")}</div>
+  ${voet("Tik verder voor meer", true)}
+</div></section>` });
+
+CONFIG.diensten.forEach((d, i) => {
+  const paneel = d.foto
+    ? `<div class="paneel foto" style="background-image:url('${d.foto}')"><span class="nummer">0${i + 1}</span></div>`
+    : `<div class="paneel">${paneelDeco(i)}<div class="icoon-groot" style="color:var(--cream)">${icoon(d.icoon, 1.4)}</div><span class="nummer">0${i + 1}</span></div>`;
+  slides.push({ naam: `0${i + 1}_${d.id}`, type: "story", html: `<section class="slide story licht dienst"><div class="binnen">
+    <div class="kop">${merk("var(--forest)")}<span class="teller">0${i + 1} / 0${totaal}</span></div>
+    ${paneel}
+    <div class="eyebrow">Wat wij doen</div>
+    <h1>${d.titel}</h1>
+    <p class="omschrijving">${d.tekst}</p>
+    <div class="chips">${d.punten.map(p => `<span class="chip">${icoon("blad", 3, 'style="color:var(--gold)"')}${p}</span>`).join("")}</div>
+    ${voet("Vraag vrijblijvend advies aan", false)}
+  </div></section>` });
+});
+
+slides.push({ naam: `0${totaal + 1}_werkwijze`, type: "story", html: `<section class="slide story licht werkwijze"><div class="binnen">
+  <div class="kop">${merk("var(--forest)")}<span class="teller">Werkwijze</span></div>
+  <div class="eyebrow">In 4 stappen</div>
+  <h1>Zo werken <em>wij</em></h1>
+  <div class="stappen">${CONFIG.werkwijze.map(([t, p], i) => `<div class="stap"><div class="bol">${i + 1}</div><div><h2>${t}</h2><p>${p}</p></div></div>`).join("")}</div>
+  ${voet("Benieuwd wat we voor jou kunnen doen?", false)}
+</div></section>` });
+
+slides.push({ naam: `0${totaal + 2}_contact`, type: "story", html: `<section class="slide story donker contact">
+  <svg class="ornament" viewBox="0 0 760 760">${takje(700, 760, 700, -118, "#2B4E3A", 6, 9)}${takje(760, 420, 420, -150, "#A9BA9833", 4, 6)}</svg>
+  <div class="binnen">
+  <div class="kop">${merk("var(--cream)")}<span class="teller">Contact</span></div>
+  <div class="midden">
+    <div class="eyebrow">Gratis adviesgesprek</div>
+    <h1 style="margin-top:28px">${CONFIG.contact.titel}</h1>
+    <p class="sub">${CONFIG.contact.sub}</p>
+    <div class="knop">${icoon("contact", 2.6)}${CONFIG.contact.knop}</div>
+    <p class="klein">${CONFIG.contact.klein}</p>
+  </div>
+  ${voet(CONFIG.instagram, true)}
+</div></section>` });
+
+// Highlight-covers (1080×1080, Instagram toont de cirkel in het midden)
+const alt = CONFIG.coverStijl === "licht";
+const covers = [["00_diensten", "blad"], ...CONFIG.diensten.map(d => [d.id, d.icoon]), ["werkwijze", "werkwijze"], ["contact", "contact"]];
+covers.forEach(([naam, ic]) => slides.push({ naam: `cover_${naam}`, type: "cover",
+  html: `<section class="slide cover ${alt ? "alt" : ""}"><div class="ring"></div><span style="color:${alt ? "var(--forest)" : "var(--cream)"}">${icoon(ic, 1.6, 'class="ci"')}</span></section>` }));
+
+const g = document.getElementById("galerij");
+g.innerHTML = slides.map((s, i) => s.html.replace('class="slide', `data-naam="${s.naam}" class="slide`)).join("");
+window.SLIDES = slides.map(s => ({ naam: s.naam, type: s.type }));
+</script>
+</body>
+</html>
