@@ -1,9 +1,9 @@
-# Tuinbedrijf
+# KT Buitenwerk
 
 | | |
 |---|---|
-| **Website** |  |
-| **Contactpersoon** | |
+| **Instagram / TikTok** | @ktbuitenwerk |
+| **Contactpersoon** | Twan & Kevin (Spijkenisse) |
 | **E-mail / telefoon** | |
 | **Aangemaakt** | 2026-10-06 |
 
@@ -13,7 +13,7 @@
 - Vaste outro: ja / nee (staat in `01_brand/brand.json` → `fixed_outro`)
 
 ## Tone of voice
-_Kort: hoe praat dit merk? Wat past wel, wat absoluut niet?_
+Jong, persoonlijk en duidelijk. Twee jonge ondernemers uit Spijkenisse; focus op tuinonderhoud voor particulieren (onkruid, heggen, gras, struiken, opknappen) plus praktische klussen rond het huis. Kernbelofte: eerst zelf komen kijken, dan pas een prijs.
 
 ## Do's & don'ts
 - 

@@ -1,0 +1,32 @@
+{
+  "naam": "KT Buitenwerk",
+  "website": "https://www.instagram.com/ktbuitenwerk/",
+  "kleuren": {
+    "primary": "#1F3A2B",
+    "secondary": "#F3EEE3",
+    "accent": "#C7A15C",
+    "tekst": "#17271D",
+    "achtergrond": "#F3EEE3"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Fraunces",
+      "weight": 500,
+      "bestand": "fonts/"
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "bestand": "fonts/"
+    }
+  },
+  "logo": {
+    "primair": "logo/logo.svg",
+    "wit": "logo/logo_wit.svg"
+  },
+  "fixed_outro": null,
+  "oplevering": {
+    "hook_varianten": 2,
+    "max_animaties": null
+  }
+}
