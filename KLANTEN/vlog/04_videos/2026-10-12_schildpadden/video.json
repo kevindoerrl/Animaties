@@ -1,0 +1,11 @@
+{
+  "klant": "vlog",
+  "video": "schildpadden",
+  "datum": "2026-10-12",
+  "formaat": {
+    "breedte": 1920,
+    "hoogte": 1080,
+    "fps": 60
+  },
+  "bron": "d45f3b2d-schildpadden.mp4"
+}

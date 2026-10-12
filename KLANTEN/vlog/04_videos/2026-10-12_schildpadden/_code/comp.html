@@ -1,0 +1,162 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+@font-face{font-family:Caveat;src:url(fonts/caveat.ttf)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/inter700.ttf)}
+@font-face{font-family:Inter;font-weight:900;src:url(fonts/inter900.ttf)}
+:root{--teal:#0B5C6B;--deep:#06323D;--sun:#FFC93C;--magenta:#E8177D}
+html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
+.abs{position:absolute}
+#A,#B,#C{position:absolute;inset:0;visibility:hidden}
+</style></head>
+<body>
+<!--
+  Video: vlog/2026-10-12_schildpadden · 1920×1080 @ 60fps · 10,333s (620 frames)
+  Cuts: 1,45 · 3,85 · 6,067 · 7,35
+  A  0,00 → 1,45   titel "SCHILDPADDEN" (snorkelaars springen erin)
+  B  6,067 → 7,35  cirkels om de twee schildpadden + ×2 (tracking via keyframes)
+  C  7,45 → 10,2   documentaire-onderschrift bij de close-up
+  render(stijl, t): stijl "A" | "B" | "C" | "ALLES" (alle drie, voor één MOV over de hele clip)
+-->
+
+<!-- A: titel -->
+<div id="A">
+  <div id="A_wrap" class="abs" style="left:0;right:0;top:470px;height:300px;transform-origin:50% 50%">
+    <div id="A_title" class="abs" style="left:0;right:0;top:0;text-align:center;font:400 230px/280px Anton;color:#fff;letter-spacing:6px;white-space:nowrap"></div>
+  </div>
+  <div id="A_bubbles"></div>
+</div>
+
+<!-- B: twee schildpadden -->
+<div id="B">
+  <svg class="abs" width="1920" height="1080" style="inset:0;overflow:visible">
+    <path id="B_c1" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" style="filter:drop-shadow(0 4px 10px rgba(0,40,60,.45))"/>
+    <path id="B_c2" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" style="filter:drop-shadow(0 4px 10px rgba(0,40,60,.45))"/>
+  </svg>
+  <div id="B_badge" class="abs" style="width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;background:var(--sun);box-shadow:0 14px 34px rgba(0,40,60,.4),inset 0 -6px 0 rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:400 104px/1 Anton;color:var(--deep)">×2</div>
+</div>
+
+<!-- C: documentaire-onderschrift -->
+<div id="C">
+  <div id="C_box" class="abs" style="left:560px;top:150px;width:800px;height:170px">
+    <div id="C_bg" class="abs" style="left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,rgba(6,50,61,.88),rgba(6,50,61,.62));border-radius:6px;transform-origin:0 50%"></div>
+    <div id="C_bar" class="abs" style="left:0;top:0;bottom:0;width:12px;background:var(--sun);border-radius:6px 0 0 6px;transform-origin:50% 0"></div>
+    <div class="abs" style="left:44px;right:30px;top:28px;height:70px;overflow:hidden">
+      <div id="C_t1" class="abs" style="left:0;top:0;font:700 60px/70px Inter;color:#fff;white-space:nowrap">Groene zeeschildpad</div>
+    </div>
+    <div class="abs" style="left:46px;right:30px;top:104px;height:44px;overflow:hidden">
+      <div id="C_t2" class="abs" style="left:0;top:0;font:italic 700 34px/44px Inter;color:var(--sun);white-space:nowrap;letter-spacing:1px">Chelonia mydas</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={
+  outExpo:x=>x>=1?1:1-Math.pow(2,-10*x),
+  inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
+  outBack:x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,
+  outCubic:x=>1-Math.pow(1-x,3), inCubic:x=>x*x*x,
+};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const FPS=60, D=620/FPS;
+const CUT1=1.45, CUT3=364/FPS, CUT4=441/FPS;
+
+// ---------- A ----------
+const TITEL='SCHILDPADDEN';
+function seeded(i){const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);}
+const BUBBELS=Array.from({length:34},(_,i)=>({x:200+seeded(i)*1520,r:6+seeded(i+50)*22,v:420+seeded(i+90)*520,d:seeded(i+130)*0.6,w:seeded(i+170)*6}));
+function setupA(){
+  document.getElementById('A_title').innerHTML=[...TITEL].map(c=>`<span class="ch" style="display:inline-block;text-shadow:0 8px 0 rgba(6,50,61,.55),0 12px 40px rgba(6,50,61,.5)">${c}</span>`).join('');
+  document.getElementById('A_bubbles').innerHTML=BUBBELS.map(()=>`<div class="abs bub" style="border-radius:50%;border:3px solid rgba(255,255,255,.85);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),rgba(255,255,255,.08) 45%,rgba(255,255,255,.18))"></div>`).join('');
+}
+function renderA(t){
+  const vis=t<CUT1; document.getElementById('A').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  // hook: staat er vanaf frame 1, punch-in 0.9 → 1 (outExpo, 12 frames)
+  const punch=eased(t,0,12/FPS,ease.outExpo);
+  const exit=eased(t,CUT1-0.28,CUT1-1/FPS,ease.inCubic);
+  const w=document.getElementById('A_wrap');
+  w.style.transform=`translateY(${-exit*120}px) scale(${lerp(0.9,1,punch)*lerp(1,1.15,exit)})`;
+  w.style.filter=`blur(${exit*18}px)`; w.style.opacity=1-exit;
+  document.querySelectorAll('#A_title .ch').forEach((ch,i)=>{
+    ch.style.transform=`translateY(${Math.sin(t*4.2+i*0.55)*9}px) rotate(${Math.sin(t*3.1+i)*2}deg)`;
+  });
+  document.querySelectorAll('#A_bubbles .bub').forEach((b,i)=>{
+    const B=BUBBELS[i], tt=t-B.d; const y=1140-tt*B.v;
+    b.style.width=b.style.height=B.r*2+'px';
+    b.style.left=(B.x+Math.sin(tt*5+B.w)*18-B.r)+'px'; b.style.top=(y-B.r)+'px';
+    b.style.opacity=tt<0?0:(1-exit)*0.9;
+  });
+}
+
+// ---------- B: tracking-keyframes (frame → [x1,y1,x2,y2]) ----------
+const KF=[[364,740,490,1380,500],[383,740,590,1340,570],[400,750,615,1320,564],[418,840,630,1380,580],[436,1035,645,1590,660],[441,1090,642,1660,662]];
+function track(f){
+  if(f<=KF[0][0]) return KF[0].slice(1);
+  for(let i=1;i<KF.length;i++) if(f<=KF[i][0]){
+    const a=KF[i-1],b=KF[i],p=(f-a[0])/(b[0]-a[0]); return [1,2,3,4].map(k=>lerp(a[k],b[k],p));
+  }
+  return KF[KF.length-1].slice(1);
+}
+// handgetekende ellips: iets meer dan rond (overlap), lichte wiebel
+function sketch(cx,cy,rx,ry,rot,seed){
+  const pts=[]; const n=48, tot=1.12;
+  for(let i=0;i<=n;i++){
+    const a=-Math.PI*0.6+i/n*Math.PI*2*tot;
+    const wob=1+0.045*Math.sin(a*3+seed)+0.03*Math.sin(a*5+seed*2);
+    const x=Math.cos(a)*rx*wob*(1+i/n*0.04), y=Math.sin(a)*ry*wob*(1+i/n*0.04);
+    pts.push([cx+x*Math.cos(rot)-y*Math.sin(rot), cy+x*Math.sin(rot)+y*Math.cos(rot)]);
+  }
+  return 'M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L');
+}
+function renderB(t){
+  const u=t-CUT3, vis=u>=0 && t<CUT4; document.getElementById('B').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  const f=t*FPS, [x1,y1,x2,y2]=track(f);
+  const exit=eased(t,CUT4-0.16,CUT4-1/FPS,ease.inCubic);
+  const c1=document.getElementById('B_c1'), c2=document.getElementById('B_c2');
+  c1.setAttribute('d',sketch(x1,y1,175,150,-0.15,1)); c2.setAttribute('d',sketch(x2,y2,190,150,0.1,4));
+  for(const [c,st] of [[c1,0],[c2,0.08]]){
+    const len=c.getTotalLength(); c.style.strokeDasharray=len;
+    c.style.strokeDashoffset=len*(1-eased(u,st,st+0.32,ease.outCubic));
+    c.style.opacity=1-exit;
+  }
+  const bp=eased(u,0.22,0.55,ease.outBack), bz=eased(u,0.22,0.4,ease.outExpo);
+  const bx=(x1+x2)/2, by=Math.min(y1,y2)-205;
+  const b=document.getElementById('B_badge');
+  b.style.left=bx+'px'; b.style.top=by+'px';
+  b.style.transform=`scale(${lerp(2.2,1,bz)*lerp(0.4,1,bp)*lerp(1,0.6,exit)}) rotate(${lerp(-25,-6,bp)+Math.sin(u*5)*2}deg)`;
+  b.style.filter=`blur(${lerp(14,0,bz)+exit*10}px)`; b.style.opacity=u<0.22?0:Math.min(bz*1.5,1)*(1-exit);
+}
+
+// ---------- C ----------
+const C0=7.45, C1=10.2;
+function renderC(t){
+  const u=t-C0, vis=u>=0 && t<C1; document.getElementById('C').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  const exit=eased(t,C1-0.4,C1-1/FPS,ease.inExpo);
+  const box=document.getElementById('C_box');
+  const z=eased(u,0,0.5,ease.outExpo);
+  box.style.transform=`translateY(${Math.sin(u*1.3)*3}px) scale(${lerp(1.15,1,z)*lerp(1,0.94,exit)})`;
+  box.style.filter=`blur(${lerp(10,0,z)+exit*12}px)`; box.style.opacity=Math.min(eased(u,0,0.15,ease.outCubic),1-exit);
+  document.getElementById('C_bar').style.transform=`scaleY(${eased(u,0,0.35,ease.outExpo)})`;
+  document.getElementById('C_bg').style.transform=`scaleX(${eased(u,0.08,0.6,ease.outExpo)})`;
+  const t1=eased(u,0.25,0.75,ease.outExpo), t2=eased(u,0.4,0.9,ease.outExpo);
+  document.getElementById('C_t1').style.transform=`translateY(${lerp(72,0,t1)}px)`;
+  document.getElementById('C_t2').style.transform=`translateY(${lerp(46,0,t2)}px)`;
+}
+
+function render(style,t){
+  const alle=style==='ALLES';
+  if(alle||style==='A') renderA(t); else document.getElementById('A').style.visibility='hidden';
+  if(alle||style==='B') renderB(t); else document.getElementById('B').style.visibility='hidden';
+  if(alle||style==='C') renderC(t); else document.getElementById('C').style.visibility='hidden';
+}
+window.init=async()=>{
+  await document.fonts.load('230px Anton'); await document.fonts.load('700 60px Inter'); await document.fonts.load('italic 700 34px Inter');
+  await document.fonts.ready; setupA();
+};
+window.render=render; window.D=D;
+</script>
+</body></html>
