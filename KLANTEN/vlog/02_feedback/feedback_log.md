@@ -26,3 +26,10 @@ _Nog geen feedback. Per iteratie toevoegen in dit format:_
 **Was:** drie stijlen als still v1
 **Werd:** B gerenderd als `spijkenisse_bord_v1.mov` (1080×1920, 60fps, 2,5s = hele clip, start op frame 46)
 **Leer-regel:** Voor Nederlandse plekken werkt een herkenbaar blauw plaatsnaambord goed. Lever de MOV even lang als de clip, met de animatie op het exacte frame van het woord: dan hoeft hij alleen op 0:00 gelegd te worden.
+
+## 2026-10-12 — Schildpadden · Playa Grandi
+
+**Feedback:** "Ik wil dat je een animatie maakt waarin we in Playa Grandi zijn en met schildpadden kunnen zwemmen." → daarna: "ik wil alleen de animatie op een ander stukje van de video" / "alleen de animatie".
+**Was:** 3 animaties (titel, ×2-cirkels, documentaire-onderschrift) + Playa Grandi-kaart vast getimed op de clip (1,45s), alles samen in een preview.
+**Werd:** alleen de Playa Grandi-kaart, als losse MOV die op frame 0 begint (3,35s), zodat Amix hem zelf op het gewenste stuk legt.
+**Leer-regel:** Bij een vlog wil hij soms zelf bepalen waar een animatie komt: lever dan een losse MOV vanaf frame 0 in plaats van op de cliptiming. Bij twijfel over het moment: vraag, of lever los. Kaartjes-stijl (Jan Thiel/Playa Grandi) is zijn vaste locatiestijl.

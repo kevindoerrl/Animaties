@@ -12,10 +12,10 @@
 
 | # | Tijd | Type | Spoken trigger | Status |
 |---|---|---|---|---|
-| A | 00:00.00 → 00:01.45 | Titel "SCHILDPADDEN" + opstijgende bubbels (punch-in) | geen spraak: snorkelaars springen erin | stills v1 |
-| B | 00:06.07 → 00:07.35 | Getekende cirkels om de 2 schildpadden (tracking) + ×2-badge | beeld: twee schildpadden | stills v1 |
-| C | 00:07.45 → 00:10.20 | Documentaire-onderschrift "Groene zeeschildpad · Chelonia mydas" | beeld: close-up | stills v1 (soort nog bevestigen) |
-| D | 00:01.45 → 00:04.80 | Locatiekaart Curaçao, pin op Playa Grandi + zwemmend schildpadje, "PLAYA GRANDI · zwemmen met schildpadden" (Jan Thiel-stijl), rechtsonder | verzoek: "we zijn in Playa Grandi en kunnen met schildpadden zwemmen" | stills v1 · vervangt A in preview v2 |
+| A | 00:00.00 → 00:01.45 | Titel "SCHILDPADDEN" + opstijgende bubbels (punch-in) | geen spraak: snorkelaars springen erin | ❌ niet gekozen |
+| B | 00:06.07 → 00:07.35 | Getekende cirkels om de 2 schildpadden (tracking) + ×2-badge | beeld: twee schildpadden | ❌ niet gekozen |
+| C | 00:07.45 → 00:10.20 | Documentaire-onderschrift "Groene zeeschildpad · Chelonia mydas" | beeld: close-up | ❌ niet gekozen |
+| D | 00:01.45 → 00:04.80 | Locatiekaart Curaçao, pin op Playa Grandi + zwemmend schildpadje, "PLAYA GRANDI · zwemmen met schildpadden" (Jan Thiel-stijl), rechtsonder | verzoek: "we zijn in Playa Grandi en kunnen met schildpadden zwemmen" | ✅ gekozen als LOSSE animatie (zelf neer te leggen) · MOV v1 geleverd |
 
 Cuts: 1,45 · 3,85 · 6,07 · 7,35. Geen spraak in de video (stil audiospoor).
 
@@ -33,3 +33,6 @@ Preview (video + animaties + muziek): `03_stills/schildpadden_preview_v1.mp4` (A
 - `06_export/`: eindvideo uit Premiere
 - `_archief/`: automatische back-ups vóór overschrijven
 - `_code/`: broncode van de animaties van deze video (compositie, render-script). Staat in git, zodat je later opnieuw kunt renderen
+
+MOV: `04_animaties/playa_grandi_v1.mov` (1920×1080, 60fps, 3,35s, start op frame 0) + `playa_grandi_v1_30fps_klein.mov` (via chat geleverd).
+Muziek (`05_premiere/audio/schildpadden_muziek_v1.wav`): nog geen akkoord.

@@ -20,6 +20,7 @@ html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hi
   C  7,45 → 10,2   documentaire-onderschrift bij de close-up
   D  1,45 → 4,80   locatiekaart "Playa Grandi · zwemmen met schildpadden" (Jan Thiel-stijl), rechtsonder
   render(stijl, t): stijl "A" | "B" | "C" | "D" | "ALLES" (B+C+D, voor één MOV over de hele clip)
+                   | "D_LOS" (alleen Playa Grandi, start op frame 0, 3,35s: zelf neer te leggen in Premiere)
 -->
 
 <!-- A: titel -->
@@ -241,7 +242,9 @@ function render(style,t){
   if(style==='A') renderA(t); else document.getElementById('A').style.visibility='hidden';
   if(alle||style==='B') renderB(t); else document.getElementById('B').style.visibility='hidden';
   if(alle||style==='C') renderC(t); else document.getElementById('C').style.visibility='hidden';
-  if(alle||style==='D') renderD(t); else document.getElementById('D').style.visibility='hidden';
+  if(alle||style==='D') renderD(t);
+  else if(style==='D_LOS') renderD(t+D0);   // losse versie: begint op frame 0, overal neer te leggen
+  else document.getElementById('D').style.visibility='hidden';
 }
 window.init=async()=>{
   await document.fonts.load('230px Anton'); await document.fonts.load('700 60px Inter'); await document.fonts.load('italic 700 34px Inter');
@@ -249,5 +252,6 @@ window.init=async()=>{
   await document.fonts.ready; setupA(); setupD();
 };
 window.render=render; window.D=D;
+window.DUUR={D_LOS:Math.round((D1-D0)*FPS)/FPS};   // 3,35s
 </script>
 </body></html>

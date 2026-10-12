@@ -33,7 +33,7 @@ const shot = async (t, file) => {
 };
 if (mode === "still") await shot(+a, out);
 else {
-  const fps = +a, D = await page.evaluate(() => window.D), n = Math.round(D * fps);
+  const fps = +a, D = await page.evaluate((st) => window.DUUR?.[st] ?? window.D, style), n = Math.round(D * fps);
   fs.mkdirSync(out, { recursive: true });
   for (let i = 0; i < n; i++) await shot(i / fps, path.join(out, `f_${String(i).padStart(4, "0")}.png`));
   console.log(`${n} frames`);
