@@ -8,7 +8,8 @@
 :root{--teal:#0B5C6B;--deep:#06323D;--sun:#FFC93C;--magenta:#E8177D}
 html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
 .abs{position:absolute}
-#A,#B,#C{position:absolute;inset:0;visibility:hidden}
+#A,#B,#C,#D{position:absolute;inset:0;visibility:hidden}
+:root{--ocean1:#43CBE3;--ocean2:#1287BF;--sand:#F7E4B6;--ink:#0E2A3B}
 </style></head>
 <body>
 <!--
@@ -17,7 +18,8 @@ html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hi
   A  0,00 → 1,45   titel "SCHILDPADDEN" (snorkelaars springen erin)
   B  6,067 → 7,35  cirkels om de twee schildpadden + ×2 (tracking via keyframes)
   C  7,45 → 10,2   documentaire-onderschrift bij de close-up
-  render(stijl, t): stijl "A" | "B" | "C" | "ALLES" (alle drie, voor één MOV over de hele clip)
+  D  1,45 → 4,80   locatiekaart "Playa Grandi · zwemmen met schildpadden" (Jan Thiel-stijl), rechtsonder
+  render(stijl, t): stijl "A" | "B" | "C" | "D" | "ALLES" (B+C+D, voor één MOV over de hele clip)
 -->
 
 <!-- A: titel -->
@@ -47,6 +49,42 @@ html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hi
     </div>
     <div class="abs" style="left:46px;right:30px;top:104px;height:44px;overflow:hidden">
       <div id="C_t2" class="abs" style="left:0;top:0;font:italic 700 34px/44px Inter;color:var(--sun);white-space:nowrap;letter-spacing:1px">Chelonia mydas</div>
+    </div>
+  </div>
+</div>
+
+<!-- D: locatiekaart Playa Grandi -->
+<div id="D">
+  <div id="D_card" class="abs" style="left:1250px;top:470px;width:560px;height:500px;transform-origin:50% 50%">
+    <div class="abs" style="inset:0;border-radius:34px;background:#fff;box-shadow:0 30px 70px rgba(10,30,50,.38),0 6px 18px rgba(10,30,50,.25)"></div>
+    <div class="abs" style="left:14px;top:14px;width:532px;height:340px;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,var(--ocean1),var(--ocean2))">
+      <svg width="532" height="340" viewBox="0 0 532 340" class="abs" style="inset:0">
+        <defs><pattern id="Dwaves" width="46" height="22" patternUnits="userSpaceOnUse"><path d="M0 11 q11.5 -7 23 0 t23 0" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2.5"/></pattern></defs>
+        <rect width="532" height="340" fill="url(#Dwaves)"/>
+        <path id="D_shadow" fill="rgba(5,60,90,.35)" transform="translate(6 9)"/>
+        <path id="D_island" fill="var(--sand)" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+        <g id="D_ripples"></g>
+        <g id="D_turtle">
+          <!-- schildpadje (bovenaanzicht), kop naar rechts -->
+          <g id="D_flip1"><ellipse cx="8" cy="-14" rx="11" ry="5" fill="#2E8B57"/></g>
+          <g id="D_flip2"><ellipse cx="8" cy="14" rx="11" ry="5" fill="#2E8B57"/></g>
+          <ellipse cx="-11" cy="-9" rx="6" ry="3.5" fill="#2E8B57"/><ellipse cx="-11" cy="9" rx="6" ry="3.5" fill="#2E8B57"/>
+          <circle cx="19" cy="0" r="6" fill="#3FA56A"/>
+          <ellipse cx="0" cy="0" rx="15" ry="12" fill="#8B5A2B" stroke="#fff" stroke-width="2.5"/>
+          <path d="M-8 -5 L0 -8 L8 -5 M-8 5 L0 8 L8 5 M0 -8 L0 8" stroke="#C88A4A" stroke-width="2" fill="none"/>
+        </g>
+        <g id="D_pin">
+          <ellipse id="D_pinShadow" rx="16" ry="6" fill="rgba(0,0,0,.35)"/>
+          <g id="D_pinBody">
+            <path d="M0 0 C -6 -14 -26 -30 -26 -50 A 26 26 0 1 1 26 -50 C 26 -30 6 -14 0 0 Z" fill="var(--magenta)" stroke="#fff" stroke-width="4"/>
+            <circle cx="0" cy="-50" r="10" fill="#fff"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="abs" style="left:0;right:0;top:362px;height:128px;overflow:hidden">
+      <div id="D_t1" class="abs" style="left:0;right:0;top:4px;text-align:center;font:400 66px/1.1 Anton;color:var(--ink);letter-spacing:1px">PLAYA GRANDI</div>
+      <div id="D_t2" class="abs" style="left:0;right:0;top:86px;text-align:center;font:900 21px/1 Inter;color:var(--magenta);letter-spacing:4px;white-space:nowrap">ZWEMMEN MET SCHILDPADDEN</div>
     </div>
   </div>
 </div>
@@ -147,15 +185,68 @@ function renderC(t){
   document.getElementById('C_t2').style.transform=`translateY(${lerp(46,0,t2)}px)`;
 }
 
+// ---------- D: Playa Grandi ----------
+let ISLAND=null;
+const PG=[-69.1516,12.3725];     // Playa Grandi (Playa Piskado), Westpunt
+function projD([lon,lat]){
+  const k=Math.cos(12.2*Math.PI/180), s=640, cx=(-69.17+-68.74)/2, cy=(12.04+12.39)/2;
+  return [300+(lon-cx)*k*s, 205-(lat-cy)*s];   // iets naar rechts/onder: ruimte voor pin + zee bij Westpunt
+}
+function setupD(){
+  const d='M'+ISLAND.geometry.coordinates[0].map(projD).map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L')+' Z';
+  const isl=document.getElementById('D_island'); isl.setAttribute('d',d);
+  document.getElementById('D_shadow').setAttribute('d',d);
+  const len=isl.getTotalLength(); isl.style.strokeDasharray=len; isl.dataset.len=len;
+}
+const D0=CUT1, D1=4.8;
+function renderD(t){
+  const u=t-D0, vis=u>=0 && t<D1; document.getElementById('D').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  const exit=eased(t,D1-0.4,D1-1/FPS,ease.inExpo);
+  const p=eased(u,0,0.55,ease.outExpo);
+  const c=document.getElementById('D_card');
+  c.style.transform=`translateY(${Math.sin(u*1.6)*4}px) rotate(${lerp(9,3,p)}deg) scale(${lerp(1.9,1,p)*lerp(1,0.82,exit)})`;
+  c.style.filter=`blur(${lerp(26,0,p)+exit*18}px) saturate(${lerp(.4,1,p)})`;
+  c.style.opacity=Math.min(eased(u,0,0.18,ease.outCubic),1-exit);
+  const isl=document.getElementById('D_island'), len=+isl.dataset.len;
+  isl.style.strokeDashoffset=len*(1-eased(u,0.15,0.85,ease.inOutCubic));
+  const fp=eased(u,0.45,0.85,ease.outCubic); isl.style.fillOpacity=fp; document.getElementById('D_shadow').style.opacity=fp;
+  const [px,py]=projD(PG);
+  const pp=eased(u,0.72,1.12,ease.outBack);
+  document.getElementById('D_pin').setAttribute('transform',`translate(${px} ${py})`);
+  document.getElementById('D_pinBody').setAttribute('transform',`translate(0 ${lerp(-260,0,pp)}) scale(${lerp(1.6,1,eased(u,0.72,1.0,ease.outExpo))})`);
+  document.getElementById('D_pinBody').style.opacity=u<0.72?0:1;
+  const sh=document.getElementById('D_pinShadow'); sh.setAttribute('rx',lerp(4,16,pp)); sh.style.opacity=u<0.72?0:clamp(pp);
+  let r='';
+  for(let k=0;k<3;k++){ const st=1.02+k*0.42; if(u<st) continue; const q=((u-st)%1.26)/1.26;
+    r+=`<ellipse cx="${px}" cy="${py}" rx="${8+q*70}" ry="${3+q*26}" fill="none" stroke="#fff" stroke-width="${4*(1-q)+.5}" opacity="${(1-q)*.9}"/>`; }
+  document.getElementById('D_ripples').innerHTML=r;
+  // schildpadje zwemt in een boog door de zee bij Playa Grandi (links/onder de pin)
+  const tp=eased(u,0.95,1.35,ease.outBack), ang=2.2-(u-0.95)*0.8;   // boog door de zee links van Playa Grandi
+  const tx=px-62+Math.cos(ang)*42, ty=py+48+Math.sin(ang)*30;
+  const head=Math.atan2(-Math.cos(ang)*30, Math.sin(ang)*42)*180/Math.PI;  // richting van de beweging
+  const tu=document.getElementById('D_turtle');
+  tu.setAttribute('transform',`translate(${tx} ${ty}) rotate(${head}) scale(${lerp(0,1.3,tp)})`);
+  tu.style.opacity=u<0.95?0:1;
+  const fl=Math.sin(u*9)*22;
+  document.getElementById('D_flip1').setAttribute('transform',`rotate(${-fl} 2 -10)`);
+  document.getElementById('D_flip2').setAttribute('transform',`rotate(${fl} 2 10)`);
+  const t1=eased(u,0.45,0.95,ease.outExpo), t2=eased(u,0.62,1.1,ease.outExpo);
+  const e1=document.getElementById('D_t1'), e2=document.getElementById('D_t2');
+  e1.style.transform=`translateY(${lerp(110,0,t1)}px)`; e1.style.filter=`blur(${lerp(8,0,t1)}px)`;
+  e2.style.transform=`translateY(${lerp(60,0,t2)}px)`; e2.style.opacity=t2; e2.style.letterSpacing=lerp(14,4,t2)+'px';
+}
+
 function render(style,t){
   const alle=style==='ALLES';
-  if(alle||style==='A') renderA(t); else document.getElementById('A').style.visibility='hidden';
+  if(style==='A') renderA(t); else document.getElementById('A').style.visibility='hidden';
   if(alle||style==='B') renderB(t); else document.getElementById('B').style.visibility='hidden';
   if(alle||style==='C') renderC(t); else document.getElementById('C').style.visibility='hidden';
+  if(alle||style==='D') renderD(t); else document.getElementById('D').style.visibility='hidden';
 }
 window.init=async()=>{
   await document.fonts.load('230px Anton'); await document.fonts.load('700 60px Inter'); await document.fonts.load('italic 700 34px Inter');
-  await document.fonts.ready; setupA();
+  ISLAND=await (await fetch('curacao.json')).json();
+  await document.fonts.ready; setupA(); setupD();
 };
 window.render=render; window.D=D;
 </script>
