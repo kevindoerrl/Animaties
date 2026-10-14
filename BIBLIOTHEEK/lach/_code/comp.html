@@ -1,0 +1,112 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+html,body{margin:0;background:transparent;overflow:hidden}
+.abs{position:absolute}
+.emo{position:absolute;font-family:"Noto Color Emoji";line-height:1;text-align:center;transform-origin:50% 50%}
+.haha{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;font-family:Anton;color:#FFD23F;
+      -webkit-text-stroke:0;paint-order:stroke fill}
+.letter{display:inline-block;transform-origin:50% 80%}
+</style></head>
+<body>
+<!--
+  LACH — herbruikbare "hij lacht"-animatie (tegenhanger van het stop-kruis), los van een specifieke video.
+  Grootte via de URL: comp.html?w=1920&h=1080 (liggend) of ?w=1080&h=1920 (staand).
+  Stijlen (render(stijl, t)):
+    A  comic "HAHA": letters knallen erin, schudden, stralenkrans erachter
+    B  😂-explosie: grote 😂 in het midden + regen van 😂 die alle kanten op spat
+    C  combinatie: grote 😂 + "HAHA" eronder + kleine 😂-explosie
+  Duur 2,2 s: in 0–0,3 s · lachen/schudden · uit 1,85–2,2 s (alles weg op het laatste frame).
+-->
+<svg id="rays" class="abs" style="overflow:visible"></svg>
+<div id="emos"></div>
+<div id="big" class="emo">😂</div>
+<div id="haha" class="haha"></div>
+<script>
+const q=new URLSearchParams(location.search), W=+(q.get('w')||1920), H=+(q.get('h')||1080);
+document.body.style.width=W+'px'; document.body.style.height=H+'px';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={outExpo:x=>x>=1?1:1-Math.pow(2,-10*x), inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
+  outBack:x=>{const c1=2.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)}, outCubic:x=>1-Math.pow(1-x,3)};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);};
+const D=2.2, UIT=[1.85, D-1/60];
+const M=Math.min(W,H), CX=W/2, CY=H/2;
+
+// ---------- opbouw ----------
+const N_EMO=28;
+function setup(){
+  const rays=document.getElementById('rays');
+  rays.setAttribute('width',W); rays.setAttribute('height',H); rays.setAttribute('viewBox',`${-CX} ${-CY} ${W} ${H}`);
+  rays.style.left='0px'; rays.style.top='0px';
+  let r=''; const n=16, R=Math.hypot(W,H);
+  for(let i=0;i<n;i++){const a0=i/n*Math.PI*2, a1=a0+Math.PI/n;
+    r+=`<path d="M0 0 L ${Math.cos(a0)*R} ${Math.sin(a0)*R} L ${Math.cos(a1)*R} ${Math.sin(a1)*R} Z" fill="${i%2?'#FFB000':'#FFD23F'}"/>`;}
+  rays.innerHTML=`<defs><radialGradient id="fade"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="m"><circle r="${M*0.75}" fill="url(#fade)"/></mask></defs><g id="raysG" mask="url(#m)" opacity=".55">${r}</g>`;
+  document.getElementById('emos').innerHTML=Array.from({length:N_EMO},()=>`<div class="emo e">😂</div>`).join('');
+}
+function zetHaha(tekst,grootte,y){
+  const h=document.getElementById('haha');
+  h.style.fontSize=grootte+'px'; h.style.top=(y-grootte*0.62)+'px';
+  h.style.textShadow=`0 ${grootte*0.06}px 0 #7A3D00, 0 ${grootte*0.1}px ${grootte*0.25}px rgba(0,0,0,.5)`;
+  h.style.webkitTextStroke=`${(grootte*0.07).toFixed(1)}px #1A1208`;
+  if(h.dataset.t!==tekst){h.innerHTML=[...tekst].map(c=>`<span class="letter">${c}</span>`).join(''); h.dataset.t=tekst;}
+}
+
+// ---------- onderdelen ----------
+function stralen(t,aan){
+  const g=document.getElementById('raysG'); if(!aan){document.getElementById('rays').style.visibility='hidden';return;}
+  document.getElementById('rays').style.visibility='visible';
+  const p=eased(t,0,0.3,ease.outExpo), ex=eased(t,...UIT,ease.inExpo);
+  g.setAttribute('transform',`rotate(${t*35}) scale(${lerp(0.2,1,p)*lerp(1,1.4,ex)})`);
+  g.setAttribute('opacity',(0.5*(1-ex)).toFixed(3));
+}
+function haha(t,aan,grootte,y,start=0){
+  const h=document.getElementById('haha'); h.style.visibility=aan?'visible':'hidden'; if(!aan) return;
+  zetHaha('HAHA',grootte,y);
+  const ex=eased(t,...UIT,ease.inExpo);
+  h.querySelectorAll('.letter').forEach((l,i)=>{
+    const st=start+i*0.07, p=eased(t,st,st+0.32,ease.outBack), z=eased(t,st,st+0.2,ease.outExpo);
+    const lach=t>st+0.25?Math.sin((t-st)*26+i*1.7):0;               // schudden van het lachen
+    const hop=t>st+0.25?Math.abs(Math.sin((t-st)*13+i*0.9))*grootte*0.06:0;
+    l.style.transform=`translateY(${-hop}px) rotate(${lerp(i%2?25:-25,(i%2?6:-6),p)+lach*5}deg) scale(${lerp(2.2,1,z)*lerp(0.3,1,p)*lerp(1,0.4,ex)})`;
+    l.style.opacity=t<st?0:Math.min(z*1.5,1)*(1-ex);
+    l.style.filter=`blur(${lerp(10,0,z)+ex*8}px)`;
+  });
+}
+function grote(t,aan,grootte,y){
+  const b=document.getElementById('big'); b.style.visibility=aan?'visible':'hidden'; if(!aan) return;
+  const ex=eased(t,...UIT,ease.inExpo), p=eased(t,0,0.35,ease.outBack), z=eased(t,0,0.22,ease.outExpo);
+  const lach=t>0.25?Math.sin(t*28):0;
+  b.style.fontSize=grootte+'px'; b.style.width=grootte*1.3+'px';
+  b.style.left=(CX-grootte*0.65)+'px'; b.style.top=(y-grootte*0.55)+'px';
+  b.style.transform=`translateY(${t>0.25?-Math.abs(Math.sin(t*14))*grootte*0.05:0}px) rotate(${lerp(-30,0,p)+lach*7}deg) scale(${lerp(2.6,1,z)*lerp(0.2,1,p)*lerp(1,1.3,ex)})`;
+  b.style.filter=`blur(${lerp(14,0,z)+ex*14}px) drop-shadow(0 ${grootte*0.05}px ${grootte*0.12}px rgba(0,0,0,.45))`;
+  b.style.opacity=Math.min(z*1.6,1)*(1-ex);
+}
+function regen(t,aan,aantal,kracht,start){
+  document.querySelectorAll('#emos .e').forEach((e,i)=>{
+    if(!aan||i>=aantal){e.style.visibility='hidden';return;} e.style.visibility='visible';
+    const st=start+rnd(i)*0.25, u=t-st; if(u<0){e.style.opacity=0;return;}
+    const a=rnd(i+50)*Math.PI*2, v=M*kracht*(0.7+rnd(i+90)*0.9), g=M*1.6;
+    const s=M*(0.05+rnd(i+130)*0.07);
+    const x=CX+Math.cos(a)*v*u, y=CY+Math.sin(a)*v*u*0.8+0.5*g*u*u;
+    e.style.fontSize=s+'px'; e.style.left=(x-s/2)+'px'; e.style.top=(y-s/2)+'px';
+    const ex=eased(t,...UIT,ease.inExpo);
+    e.style.transform=`rotate(${(rnd(i+170)-.5)*540*u}deg) scale(${lerp(0.2,1,eased(u,0,0.18,ease.outBack))})`;
+    e.style.opacity=(1-ex);
+  });
+}
+
+function render(stijl,t){
+  if(stijl==='A'){ stralen(t,true); haha(t,true,M*0.36,CY); grote(t,false); regen(t,false); }
+  if(stijl==='B'){ stralen(t,false); haha(t,false); grote(t,true,M*0.42,CY); regen(t,true,N_EMO,0.95,0.05); }
+  if(stijl==='C'){ stralen(t,true); grote(t,true,M*0.3,CY-M*0.13); haha(t,true,M*0.2,CY+M*0.2,0.12); regen(t,true,14,0.8,0.1); }
+}
+window.init=async()=>{ await document.fonts.load(`100px Anton`); await document.fonts.load(`100px "Noto Color Emoji"`,'😂'); await document.fonts.ready; setup(); };
+window.render=render; window.D=D;
+</script>
+</body></html>
