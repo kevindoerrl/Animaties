@@ -92,8 +92,8 @@ function tekenStreek(id,t,[a,b]){
 }
 function render(_,t){
   const dp=eased(t,0,0.25,ease.outCubic);
-  document.getElementById('dim').style.background=
-    `radial-gradient(ellipse at center, rgba(40,40,46,${0.28*dp}) 0%, rgba(14,14,18,${0.55*dp}) 100%)`;
+  // egale waas (geen verloop: Chromium dithert verlopen, wat het alfakanaal van de MOV enorm groot maakt)
+  document.getElementById('dim').style.background=`rgba(20,20,24,${(0.42*dp).toFixed(3)})`;
   tekenStreek('s1',t,S1); tekenStreek('s2',t,S2);
   const p1=t-S1[1], p2=t-S2[1];
   const klap=(p1>0?0.04*Math.exp(-p1*15)*Math.cos(p1*40):0)+(p2>0?0.06*Math.exp(-p2*13)*Math.cos(p2*36):0);
