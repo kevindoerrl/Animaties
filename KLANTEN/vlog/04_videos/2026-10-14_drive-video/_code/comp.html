@@ -1,0 +1,200 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
+@font-face{font-family:Inter;font-weight:700;src:url(fonts/inter700.ttf)}
+@font-face{font-family:Inter;font-weight:900;src:url(fonts/inter900.ttf)}
+:root{--geel:#FFD23F;--rood:#FF3B3B;--groen:#2ECC71;--donker:#14161C}
+html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
+.abs{position:absolute}
+#A,#B,#C{position:absolute;inset:0;visibility:hidden}
+</style></head>
+<body>
+<!--
+  Video: 2026-10-14_drive-video · 1920×1080 @ 60fps · 15,717s (943 frames)
+  Indeling: links OmeTV-paneel (vrij, x 0–960, y 0–800), rechts spreker, onder knoppen + ondertitels (y≈880–960).
+  A  1,50 → 3,40   hangslot op de Stop-knop          ("de video STOPT PAS als ik lach")
+  B  3,82 → 9,40   lachmeter SERIEUS → LACH → GELDPRIJS ("hele SEREUZE" · "me laat LACHEN" · "een GELDPRIJS")
+  C  9,75 → 10,45  duik-transitie (water over het hele beeld) ("laten we in Omegle DUIKEN")
+  render(stijl, t): "A" | "B" | "C" | "ALLES"
+-->
+
+<!-- A: hangslot op Stop -->
+<div id="A">
+  <div id="A_dim" class="abs" style="left:252px;top:828px;width:216px;height:236px;border-radius:14px;background:rgba(20,22,28,.45)"></div>
+  <div id="A_lock" class="abs" style="left:360px;top:930px;width:0;height:0">
+    <svg class="abs" width="200" height="240" viewBox="-100 -140 200 240" style="left:-100px;top:-140px;overflow:visible;filter:drop-shadow(0 14px 24px rgba(0,0,0,.55))">
+      <path id="A_shackle" d="M -48 -20 L -48 -70 A 48 48 0 0 1 48 -70 L 48 -20" fill="none" stroke="#C9CED6" stroke-width="22" stroke-linecap="round"/>
+      <path d="M -48 -20 L -48 -70 A 48 48 0 0 1 48 -70 L 48 -20" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="6" stroke-linecap="round" transform="translate(-6 0)"/>
+      <rect x="-78" y="-30" width="156" height="120" rx="20" fill="var(--geel)" stroke="#B8860B" stroke-width="5"/>
+      <rect x="-78" y="-30" width="156" height="30" rx="14" fill="#fff" fill-opacity=".25"/>
+      <circle cx="0" cy="20" r="15" fill="#5A4300"/><rect x="-6" y="24" width="12" height="34" rx="5" fill="#5A4300"/>
+    </svg>
+  </div>
+  <div id="A_sparks"></div>
+</div>
+
+<!-- B: lachmeter -->
+<div id="B">
+  <div id="B_wrap" class="abs" style="left:480px;top:430px;width:0;height:0">
+    <svg class="abs" width="760" height="520" viewBox="-380 -380 760 520" style="left:-380px;top:-380px;overflow:visible">
+      <defs>
+        <linearGradient id="arc" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#8FA3B8"/><stop offset=".5" stop-color="#FFD23F"/><stop offset="1" stop-color="#FF3B3B"/>
+        </linearGradient>
+      </defs>
+      <path d="M -360 110 L -360 0 A 360 360 0 0 1 360 0 L 360 110 Q 360 130 340 130 L -340 130 Q -360 130 -360 110 Z" fill="rgba(20,22,28,.94)" stroke="rgba(255,255,255,.18)" stroke-width="3"/>
+      <path id="B_arcbg" d="M -290 0 A 290 290 0 0 1 290 0" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="54" stroke-linecap="round"/>
+      <path id="B_arc" d="M -290 0 A 290 290 0 0 1 290 0" fill="none" stroke="url(#arc)" stroke-width="54" stroke-linecap="round"/>
+      <g id="B_ticks"></g>
+      <text x="-262" y="78" font-family="Anton" font-size="52" fill="#C9D4E0" text-anchor="middle">SERIEUS</text>
+      <text x="262" y="78" font-family="Anton" font-size="52" fill="var(--rood)" text-anchor="middle">LACH</text>
+      <g id="B_needle">
+        <path d="M 0 -14 L 250 -3 L 250 3 L 0 14 Z" fill="#fff"/>
+        <circle r="30" fill="#fff"/><circle r="13" fill="var(--donker)"/>
+      </g>
+    </svg>
+  </div>
+  <div id="B_money"></div>
+  <div id="B_prize" class="abs" style="left:0;width:960px;top:560px;text-align:center;font:400 150px/1 Anton;color:var(--geel);letter-spacing:3px;white-space:nowrap;text-shadow:0 8px 0 #7A5C00,0 16px 40px rgba(0,0,0,.6)">GELDPRIJS</div>
+</div>
+
+<!-- C: duik-transitie -->
+<div id="C">
+  <svg class="abs" width="1920" height="1080" style="inset:0;overflow:visible">
+    <defs>
+      <linearGradient id="water" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#4FD1F0"/><stop offset=".45" stop-color="#1A8FD0"/><stop offset="1" stop-color="#0B4F8A"/>
+      </linearGradient>
+    </defs>
+    <path id="C_wave2" fill="#B5ECFA" fill-opacity=".85"/>
+    <path id="C_wave" fill="url(#water)"/>
+  </svg>
+  <div id="C_bubbles"></div>
+</div>
+
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={
+  outExpo:x=>x>=1?1:1-Math.pow(2,-10*x), inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
+  outBack:x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, outCubic:x=>1-Math.pow(1-x,3), inCubic:x=>x*x*x,
+};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);};
+const FPS=60, D=943/FPS;
+
+// ---------- A: hangslot ----------
+const A0=1.50, A1=3.40, HIT=A0+0.22;
+function setupA(){
+  document.getElementById('A_sparks').innerHTML=Array.from({length:10},()=>`<div class="abs spark" style="width:10px;height:26px;border-radius:5px;background:var(--geel);margin:-13px 0 0 -5px"></div>`).join('');
+}
+function renderA(t){
+  const vis=t>=A0 && t<A1; document.getElementById('A').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  const u=t-A0, exit=eased(t,A1-0.3,A1-1/FPS,ease.inExpo);
+  const fall=eased(u,0,0.22,ease.inCubic);                 // slot valt versnellend
+  let sc=lerp(2.4,1,fall), y=lerp(-160,0,fall), rot=lerp(-18,0,fall);
+  if(t>HIT){const q=t-HIT; sc=1+0.12*Math.exp(-q*12)*Math.cos(q*40); rot=6*Math.exp(-q*9)*Math.sin(q*34);}  // klap + nawiebel
+  const lock=document.getElementById('A_lock');
+  lock.style.transform=`translateY(${y}px) rotate(${rot}deg) scale(${sc*lerp(1,0.7,exit)})`;
+  lock.style.filter=`blur(${lerp(14,0,fall)+exit*12}px)`;
+  lock.style.opacity=Math.min(eased(u,0,0.08,ease.outCubic),1-exit);
+  // beugel klikt dicht net na de klap
+  const sh=eased(t,HIT+0.05,HIT+0.18,ease.outBack);
+  document.getElementById('A_shackle').setAttribute('transform',`translate(0 ${lerp(-26,0,sh)})`);
+  document.getElementById('A_dim').style.opacity=eased(t,HIT,HIT+0.15,ease.outCubic)*(1-exit);
+  document.querySelectorAll('#A_sparks .spark').forEach((s,i)=>{
+    const q=eased(t,HIT,HIT+0.35,ease.outExpo), a=i/10*Math.PI*2+0.3, d=lerp(60,150,q);
+    s.style.left=(360+Math.cos(a)*d)+'px'; s.style.top=(930+Math.sin(a)*d)+'px';
+    s.style.transform=`rotate(${a*180/Math.PI+90}deg) scaleY(${lerp(1,0.2,q)})`;
+    s.style.opacity=t<HIT?0:(1-q);
+  });
+}
+
+// ---------- B: lachmeter ----------
+const B0=3.82, LACH=6.27, PRIJS=8.52, B1=9.40;
+const ANG_SER=-172, ANG_LACH=-12;   // naaldhoek (graden, 0 = rechts)
+function setupB(){
+  let tk='';
+  for(let i=0;i<=10;i++){const a=Math.PI+i/10*Math.PI, r1=232, r2=i%5?250:262;
+    tk+=`<line x1="${Math.cos(a)*r1}" y1="${Math.sin(a)*r1}" x2="${Math.cos(a)*r2}" y2="${Math.sin(a)*r2}" stroke="rgba(255,255,255,.55)" stroke-width="${i%5?4:7}" stroke-linecap="round"/>`;}
+  document.getElementById('B_ticks').innerHTML=tk;
+  document.getElementById('B_money').innerHTML=Array.from({length:22},(_,i)=>`<div class="abs bill" style="width:120px;height:64px;margin:-32px 0 0 -60px;border-radius:8px;background:linear-gradient(135deg,#3DDC84,#1E9E57);border:4px solid #0F6B3A;box-shadow:0 8px 18px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font:900 40px/1 Inter;color:#0F6B3A">€</div>`).join('');
+  const arc=document.getElementById('B_arc'), len=arc.getTotalLength(); arc.style.strokeDasharray=len; arc.dataset.len=len;
+}
+function renderB(t){
+  const vis=t>=B0 && t<B1; document.getElementById('B').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  const u=t-B0, exit=eased(t,B1-0.35,B1-1/FPS,ease.inExpo);
+  const z=eased(u,0,0.45,ease.outExpo);
+  const w=document.getElementById('B_wrap');
+  const pr=eased(t,PRIJS,PRIJS+0.3,ease.outCubic);
+  w.style.transform=`translateY(${Math.sin(u*1.5)*4 + pr*-40}px) scale(${lerp(1.8,1,z)*lerp(1,0.8,pr)*lerp(1,0.85,exit)})`;
+  w.style.filter=`blur(${lerp(22,0,z)+exit*16}px)`; w.style.opacity=Math.min(eased(u,0,0.15,ease.outCubic),1-exit);
+  const arc=document.getElementById('B_arc'), len=+arc.dataset.len;
+  arc.style.strokeDashoffset=len*(1-eased(u,0.1,0.6,ease.inOutCubic));
+  // naald: komt binnen, zit vast op SERIEUS (trillen), zwaait bij "lachen" naar LACH
+  let ang=lerp(-90,ANG_SER,eased(u,0.1,0.6,ease.outBack)) + Math.sin(u*38)*1.2;
+  if(t>=LACH){const q=t-LACH; ang=lerp(ANG_SER,ANG_LACH,eased(q,0,0.45,ease.outBack)) + 5*Math.exp(-q*4)*Math.sin(q*22) + Math.sin(q*50)*1.5;}
+  document.getElementById('B_needle').setAttribute('transform',`rotate(${ang})`);
+  // geldprijs: biljetten spatten uit de meter + tekst
+  document.querySelectorAll('#B_money .bill').forEach((b,i)=>{
+    const q=t-PRIJS; if(q<0){b.style.opacity=0;return;}
+    const a=-Math.PI*(0.1+0.8*rnd(i)), v=700+rnd(i+40)*700, g=1500;
+    const x=480+Math.cos(a)*v*q, y=360+Math.sin(a)*v*q+0.5*g*q*q;
+    b.style.left=x+'px'; b.style.top=y+'px';
+    b.style.transform=`rotate(${(rnd(i+80)-.5)*720*q}deg) rotateX(${q*540*rnd(i+9)}deg) scale(${lerp(0.3,1,eased(q,0,0.15,ease.outCubic))})`;
+    b.style.opacity=1-exit;
+  });
+  const pz=eased(t,PRIJS,PRIJS+0.35,ease.outBack), pzb=eased(t,PRIJS,PRIJS+0.25,ease.outExpo);
+  const p=document.getElementById('B_prize');
+  p.style.transform=`scale(${lerp(2.4,1,pzb)*lerp(0.6,1,pz)*lerp(1,0.85,exit)}) rotate(${lerp(-12,-4,pz)}deg)`;
+  p.style.filter=`blur(${lerp(18,0,pzb)+exit*14}px)`; p.style.opacity=t<PRIJS?0:Math.min(pzb*1.6,1)*(1-exit);
+}
+
+// ---------- C: duik-transitie ----------
+const C0=9.75, CMID=10.05, C1=10.45;
+function setupC(){
+  document.getElementById('C_bubbles').innerHTML=Array.from({length:40},()=>`<div class="abs bub" style="border-radius:50%;border:3px solid rgba(255,255,255,.85);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.7),rgba(255,255,255,.05) 50%)"></div>`).join('');
+}
+function golf(level,u,amp){   // waterlijn op hoogte "level" (y), golvend
+  let d=`M 0 1200 L 0 ${level}`;
+  for(let x=0;x<=1920;x+=40) d+=` L ${x} ${level+Math.sin(x/170+u*14)*amp+Math.sin(x/63-u*9)*amp*0.35}`;
+  return d+' L 1920 1200 Z';
+}
+function golfTop(level,u,amp){ // water boven de lijn (bij het wegspoelen naar boven)
+  let d=`M 0 -120 L 0 ${level}`;
+  for(let x=0;x<=1920;x+=40) d+=` L ${x} ${level+Math.sin(x/170+u*14)*amp+Math.sin(x/63-u*9)*amp*0.35}`;
+  return d+' L 1920 -120 Z';
+}
+function renderC(t){
+  const vis=t>=C0 && t<C1; document.getElementById('C').style.visibility=vis?'visible':'hidden'; if(!vis) return;
+  const u=t-C0, w=document.getElementById('C_wave'), w2=document.getElementById('C_wave2');
+  if(t<CMID){ // water stijgt van onder naar boven (in)
+    const p=eased(t,C0,CMID,ease.inOutCubic), lvl=lerp(1140,-110,p);
+    w.setAttribute('d',golf(lvl,u,lerp(40,70,p))); w2.setAttribute('d',golf(lvl-38,u+0.3,lerp(30,55,p)));
+  } else {   // water spoelt naar boven weg (uit): onderkant komt vrij
+    const p=eased(t,CMID,C1-1/FPS,ease.inOutCubic), lvl=lerp(1190,-120,p);
+    w.setAttribute('d',golfTop(lvl,u,lerp(70,40,p))); w2.setAttribute('d',golfTop(lvl+38,u+0.3,lerp(55,30,p)));
+  }
+  document.querySelectorAll('#C_bubbles .bub').forEach((b,i)=>{
+    const r=8+rnd(i)*30, x=rnd(i+20)*1920, sp=900+rnd(i+60)*900, st=rnd(i+90)*0.25;
+    const q=u-st, y=1150-q*sp;
+    b.style.width=b.style.height=r*2+'px'; b.style.left=(x+Math.sin(q*6+i)*20-r)+'px'; b.style.top=(y-r)+'px';
+    b.style.opacity=q<0?0:0.9*(1-eased(t,C1-0.12,C1,ease.outCubic));
+  });
+}
+
+function render(style,t){
+  const alle=style==='ALLES';
+  if(alle||style==='A') renderA(t); else document.getElementById('A').style.visibility='hidden';
+  if(alle||style==='B') renderB(t); else document.getElementById('B').style.visibility='hidden';
+  if(alle||style==='C') renderC(t); else document.getElementById('C').style.visibility='hidden';
+}
+window.init=async()=>{
+  await document.fonts.load('150px Anton'); await document.fonts.load('900 40px Inter');
+  await document.fonts.ready; setupA(); setupB(); setupC();
+};
+window.render=render; window.D=D;
+</script>
+</body></html>

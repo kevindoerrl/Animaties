@@ -1,0 +1,11 @@
+{
+  "klant": "vlog",
+  "video": "drive video",
+  "datum": "2026-10-14",
+  "formaat": {
+    "breedte": 1920,
+    "hoogte": 1080,
+    "fps": 60
+  },
+  "bron": "drive_video.mp4"
+}
