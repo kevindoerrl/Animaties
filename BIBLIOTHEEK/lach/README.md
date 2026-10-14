@@ -19,3 +19,5 @@ node render.mjs frames 1920x1080 60 $env:TEMP\lach_A A
 cd ..\..\..
 npm run prores -- "$env:TEMP\lach_A" --fps 60 --out "BIBLIOTHEEK\lach\animaties\lach_A_16x9_60fps_v1.mov"
 ```
+
+**Gekozen: B.** Geleverd: `animaties/lach_B_16x9_60fps_v1.mov` (1920×1080, 60fps, 2,2 s, 55 MB).
