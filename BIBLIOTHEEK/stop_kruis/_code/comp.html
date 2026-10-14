@@ -1,0 +1,105 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;background:transparent;overflow:hidden}
+.abs{position:absolute}
+</style></head>
+<body>
+<!--
+  STOP-KRUIS — herbruikbare "de video stopt"-animatie (los van een specifieke video).
+  Grootte via de URL: comp.html?w=1920&h=1080 (liggend) of ?w=1080&h=1920 (staand).
+  Tijdlijn (D = 2,0s, blijft op het eind staan zodat de video "stopt"):
+    0,00–0,25  beeld dimt naar grijs (video blijft zichtbaar)
+    0,05–0,22  kwaststreek 1    0,20–0,37  kwaststreek 2    + kleine klap per streek
+    0,37–2,00  kruis staat stil met zachte gloed
+-->
+<div id="dim" class="abs" style="inset:0"></div>
+<svg id="x" class="abs" style="overflow:visible">
+  <defs>
+    <!-- droge kwast: strepen in de lengterichting van de streek (filter werkt in het gedraaide assenstelsel van de streek) -->
+    <filter id="kwast" x="-20%" y="-60%" width="140%" height="220%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0035 0.09" numOctaves="3" seed="11" result="streep"/>
+      <feColorMatrix in="streep" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -5.5 3.6" result="masker"/>
+      <feComposite in="SourceGraphic" in2="masker" operator="in" result="droog"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="2" seed="4" result="rand"/>
+      <feDisplacementMap id="disp" in="droog" in2="rand" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="gloed" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur id="gloedblur" stdDeviation="20" result="b"/>
+      <feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.75 0" result="b2"/>
+      <feMerge><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#gloed)">
+    <g id="r1"><g id="s1" filter="url(#kwast)" stroke-linecap="round" fill="none"></g></g>
+    <g id="r2"><g id="s2" filter="url(#kwast)" stroke-linecap="round" fill="none"></g></g>
+  </g>
+</svg>
+<script>
+const q=new URLSearchParams(location.search), W=+(q.get('w')||1920), H=+(q.get('h')||1080);
+document.body.style.width=W+'px'; document.body.style.height=H+'px';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={outCubic:x=>1-Math.pow(1-x,3), outExpo:x=>x>=1?1:1-Math.pow(2,-10*x)};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const D=2.0, S1=[0.05,0.22], S2=[0.20,0.37];
+
+const R=Math.min(W,H)*0.30;          // halve breedte van het kruis
+const k=R/210;                       // schaal t.o.v. het ontwerp (210 = referentiegrootte)
+
+// Een streek = ~18 dunne haren naast elkaar, horizontaal getekend en daarna gedraaid (zodat de
+// droge-kwaststrepen van het filter in de lengterichting lopen). Haren hebben eigen dikte,
+// dekking, lichte kromming en begin/eind, zodat de uiteinden rafelig zijn.
+const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);};
+function streek(id,lengte,breedte,zaad){
+  const g=document.getElementById(id), n=26; let h='';
+  for(let i=0;i<n;i++){
+    const r=(z)=>rnd(zaad*97+i*13+z);
+    const y=(i/(n-1)-0.5)*breedte + (r(1)-.5)*breedte*0.08;
+    const rand=Math.abs(i/(n-1)-0.5)*2;                     // 0 midden … 1 rand
+    const x1=-lengte*(0.92+r(2)*0.08) + rand*lengte*0.06*r(3);
+    const x2= lengte*(0.90+r(4)*0.10) - rand*lengte*0.08*r(5);
+    const w=breedte*(0.07+r(6)*0.09)*(1-rand*0.35);
+    const o=(0.75+r(7)*0.25)*(1-rand*0.25);
+    const buig=(r(8)-.5)*breedte*0.25;
+    const kleur=r(9)<.3?'#FF4747':(r(9)<.6?'#E81414':'#F52020');
+    h+=`<path d="M ${x1} ${y} Q 0 ${y+buig} ${x2} ${y+buig*0.4}" stroke="${kleur}" stroke-width="${w.toFixed(1)}" stroke-opacity="${o.toFixed(2)}"/>`;
+  }
+  // kern: één volle streek in het midden zodat het kruis van ver ook stevig leest
+  h+=`<path d="M ${-lengte*0.9} 0 Q 0 ${breedte*0.05} ${lengte*0.88} ${breedte*0.02}" stroke="#F21B1B" stroke-width="${(breedte*0.7).toFixed(1)}" stroke-opacity=".92"/>`;
+  g.innerHTML=h;
+  g.querySelectorAll('path').forEach(p=>{const L=p.getTotalLength(); p.style.strokeDasharray=L; p.dataset.len=L;});
+}
+function setup(){
+  const x=document.getElementById('x');
+  x.setAttribute('width',W); x.setAttribute('height',H);
+  x.setAttribute('viewBox',`${-W/2} ${-H/2} ${W} ${H}`);
+  x.style.left='0px'; x.style.top='0px'; x.style.transformOrigin='50% 50%';
+  document.getElementById('disp').setAttribute('scale',(12*k).toFixed(1));
+  document.getElementById('gloedblur').setAttribute('stdDeviation',(20*k).toFixed(1));
+  const L=R*1.42, B=R*0.46;
+  document.getElementById('r1').setAttribute('transform','rotate(45)');
+  document.getElementById('r2').setAttribute('transform','rotate(-45)');
+  streek('s1',L,B,1); streek('s2',L,B,2);
+}
+// streek 2 tekent van rechtsboven naar linksonder: spiegel de richting
+function richt(){ document.getElementById('s2').setAttribute('transform','scale(-1 1)'); }
+function tekenStreek(id,t,[a,b]){
+  document.querySelectorAll('#'+id+' path').forEach((p,i)=>{
+    const v=i*0.012, e=eased(t,a+v,b+v,ease.outCubic);
+    p.style.strokeDashoffset=+p.dataset.len*(1-e);
+    p.style.visibility=t<a+v?'hidden':'visible';
+  });
+}
+function render(_,t){
+  const dp=eased(t,0,0.25,ease.outCubic);
+  document.getElementById('dim').style.background=
+    `radial-gradient(ellipse at center, rgba(40,40,46,${0.28*dp}) 0%, rgba(14,14,18,${0.55*dp}) 100%)`;
+  tekenStreek('s1',t,S1); tekenStreek('s2',t,S2);
+  const p1=t-S1[1], p2=t-S2[1];
+  const klap=(p1>0?0.04*Math.exp(-p1*15)*Math.cos(p1*40):0)+(p2>0?0.06*Math.exp(-p2*13)*Math.cos(p2*36):0);
+  document.getElementById('x').style.transform=`scale(${1+klap})`;
+}
+window.init=async()=>{setup(); richt();};
+window.render=render; window.D=D;
+</script>
+</body></html>

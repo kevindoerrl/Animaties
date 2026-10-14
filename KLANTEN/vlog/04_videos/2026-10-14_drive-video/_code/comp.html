@@ -19,19 +19,26 @@ html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hi
   render(stijl, t): "A" | "B" | "C" | "ALLES"
 -->
 
-<!-- A: hangslot op Stop -->
+<!-- A: rood kwastkruis over de Stop-knop (knop: x 250–468, y 830–1065) -->
 <div id="A">
-  <div id="A_dim" class="abs" style="left:252px;top:828px;width:216px;height:236px;border-radius:14px;background:rgba(20,22,28,.45)"></div>
-  <div id="A_lock" class="abs" style="left:360px;top:930px;width:0;height:0">
-    <svg class="abs" width="200" height="240" viewBox="-100 -140 200 240" style="left:-100px;top:-140px;overflow:visible;filter:drop-shadow(0 14px 24px rgba(0,0,0,.55))">
-      <path id="A_shackle" d="M -48 -20 L -48 -70 A 48 48 0 0 1 48 -70 L 48 -20" fill="none" stroke="#C9CED6" stroke-width="22" stroke-linecap="round"/>
-      <path d="M -48 -20 L -48 -70 A 48 48 0 0 1 48 -70 L 48 -20" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="6" stroke-linecap="round" transform="translate(-6 0)"/>
-      <rect x="-78" y="-30" width="156" height="120" rx="20" fill="var(--geel)" stroke="#B8860B" stroke-width="5"/>
-      <rect x="-78" y="-30" width="156" height="30" rx="14" fill="#fff" fill-opacity=".25"/>
-      <circle cx="0" cy="20" r="15" fill="#5A4300"/><rect x="-6" y="24" width="12" height="34" rx="5" fill="#5A4300"/>
-    </svg>
-  </div>
-  <div id="A_sparks"></div>
+  <div id="A_dim" class="abs" style="left:250px;top:830px;width:218px;height:235px;border-radius:18px;background:rgba(226,226,230,.84)"></div>
+  <svg id="A_x" class="abs" width="420" height="420" viewBox="-210 -210 420 420" style="left:149px;top:737px;overflow:visible">
+    <defs>
+      <filter id="kwast" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.06 0.28" numOctaves="2" seed="5" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+        <feGaussianBlur in="d" stdDeviation="0.6"/>
+      </filter>
+      <filter id="gloed" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="10" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#gloed)" opacity=".98">
+      <g id="A_s1" filter="url(#kwast)" stroke-linecap="round" fill="none"></g>
+      <g id="A_s2" filter="url(#kwast)" stroke-linecap="round" fill="none"></g>
+    </g>
+  </svg>
 </div>
 
 <!-- B: lachmeter -->
@@ -85,31 +92,41 @@ const lerp=(a,b,p)=>a+(b-a)*p;
 const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 const FPS=60, D=943/FPS;
 
-// ---------- A: hangslot ----------
-const A0=1.50, A1=3.40, HIT=A0+0.22;
+// ---------- A: rood kwastkruis ----------
+const A0=1.50, A1=3.40;
+const S1=[A0, A0+0.14], S2=[A0+0.12, A0+0.27];       // twee kwaststreken, snel na elkaar
+// elke streek = een paar "haren" (licht verschoven paden met eigen dikte/dekking) → kwastlook
+const HAREN=[[0,0,40,1],[ -9,-7,18,.85],[10,8,16,.8],[-4,12,9,.7],[6,-13,8,.65],[0,3,30,.9]];
+function streek(id,x1,y1,x2,y2,buig){
+  const g=document.getElementById(id);
+  g.innerHTML=HAREN.map(([dx,dy,w,o],k)=>{
+    const mx=(x1+x2)/2+buig+dx*0.6, my=(y1+y2)/2-buig*0.4+dy*0.6;
+    return `<path d="M ${x1+dx} ${y1+dy} Q ${mx} ${my} ${x2+dx*0.7} ${y2+dy*0.7}" stroke="${k%3==1?'#FF4B4B':'#F21B1B'}" stroke-width="${w}" stroke-opacity="${o}"/>`;
+  }).join('');
+  g.querySelectorAll('path').forEach(p=>{const L=p.getTotalLength(); p.style.strokeDasharray=L; p.dataset.len=L;});
+}
 function setupA(){
-  document.getElementById('A_sparks').innerHTML=Array.from({length:10},()=>`<div class="abs spark" style="width:10px;height:26px;border-radius:5px;background:var(--geel);margin:-13px 0 0 -5px"></div>`).join('');
+  streek('A_s1',-100,-106,104,106,8);
+  streek('A_s2',102,-102,-98,110,-10);
+}
+function tekenStreek(id,t,[a,b]){
+  document.querySelectorAll('#'+id+' path').forEach((p,k)=>{
+    const vert=k*0.012, q=eased(t,a+vert,b+vert,ease.outCubic);
+    p.style.strokeDashoffset=+p.dataset.len*(1-q);
+    p.style.visibility=t<a+vert?'hidden':'visible';
+  });
 }
 function renderA(t){
   const vis=t>=A0 && t<A1; document.getElementById('A').style.visibility=vis?'visible':'hidden'; if(!vis) return;
-  const u=t-A0, exit=eased(t,A1-0.3,A1-1/FPS,ease.inExpo);
-  const fall=eased(u,0,0.22,ease.inCubic);                 // slot valt versnellend
-  let sc=lerp(2.4,1,fall), y=lerp(-160,0,fall), rot=lerp(-18,0,fall);
-  if(t>HIT){const q=t-HIT; sc=1+0.12*Math.exp(-q*12)*Math.cos(q*40); rot=6*Math.exp(-q*9)*Math.sin(q*34);}  // klap + nawiebel
-  const lock=document.getElementById('A_lock');
-  lock.style.transform=`translateY(${y}px) rotate(${rot}deg) scale(${sc*lerp(1,0.7,exit)})`;
-  lock.style.filter=`blur(${lerp(14,0,fall)+exit*12}px)`;
-  lock.style.opacity=Math.min(eased(u,0,0.08,ease.outCubic),1-exit);
-  // beugel klikt dicht net na de klap
-  const sh=eased(t,HIT+0.05,HIT+0.18,ease.outBack);
-  document.getElementById('A_shackle').setAttribute('transform',`translate(0 ${lerp(-26,0,sh)})`);
-  document.getElementById('A_dim').style.opacity=eased(t,HIT,HIT+0.15,ease.outCubic)*(1-exit);
-  document.querySelectorAll('#A_sparks .spark').forEach((s,i)=>{
-    const q=eased(t,HIT,HIT+0.35,ease.outExpo), a=i/10*Math.PI*2+0.3, d=lerp(60,150,q);
-    s.style.left=(360+Math.cos(a)*d)+'px'; s.style.top=(930+Math.sin(a)*d)+'px';
-    s.style.transform=`rotate(${a*180/Math.PI+90}deg) scaleY(${lerp(1,0.2,q)})`;
-    s.style.opacity=t<HIT?0:(1-q);
-  });
+  const exit=eased(t,A1-0.28,A1-1/FPS,ease.inExpo);
+  tekenStreek('A_s1',t,S1); tekenStreek('A_s2',t,S2);
+  // kleine "klap" op het moment dat elke streek af is
+  const p1=t-S1[1], p2=t-S2[1];
+  const klap=(p1>0?0.05*Math.exp(-p1*16)*Math.cos(p1*40):0)+(p2>0?0.07*Math.exp(-p2*14)*Math.cos(p2*38):0);
+  const x=document.getElementById('A_x');
+  x.style.transform=`scale(${(1+klap)*lerp(1,1.15,exit)})`;
+  x.style.opacity=1-exit; x.style.filter=`blur(${exit*10}px)`;
+  document.getElementById('A_dim').style.opacity=eased(t,A0,A0+0.2,ease.outCubic)*(1-exit);
 }
 
 // ---------- B: lachmeter ----------
