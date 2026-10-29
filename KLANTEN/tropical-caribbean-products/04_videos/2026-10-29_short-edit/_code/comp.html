@@ -1,146 +1,139 @@
 <!doctype html>
 <html><head><meta charset="utf-8">
 <style>
-@font-face{font-family:Anton;src:url(fonts/anton.ttf)}
 @font-face{font-family:Inter;font-weight:700;src:url(fonts/inter700.ttf)}
 @font-face{font-family:Inter;font-weight:900;src:url(fonts/inter900.ttf)}
-:root{--groen:#3A8A3E;--rood:#C0182E;--geel:#F2C814;--donker:#15130F;--wit:#FFF8EC}
-html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden}
+:root{--groen:#2E8B3E;--rood:#C0182E;--geel:#F2C814;--ink:#0F1411;--grijs:#6B7280;--lijn:#E7E9EC}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
 .abs{position:absolute}
+.blob{position:absolute;border-radius:50%;filter:blur(120px)}
 </style></head>
 <body>
 <!--
-  Short-edit (Tropical Caribbean Products × AC's BBQ) · eindkaart over het zwarte stuk 18,07 → 22,12 s
-  1080×1920 @ 60fps · MOV start op 0 = 18,07 s in de edit (243 frames, 4,05 s)
-  Lokale tijd u (0 = 18,07):
-    0,00  "namelijk nu"       achtergrond veegt in + AC's BBQ × Tropical-lockup
-    0,75  "een kortingscode"  kortingsbon schuift omhoog
-    1,48  "ac15"              code AC15 knalt erop
-    2,25  "voor 15%"          15%-badge telt op en slaat erop
-    2,91  "korting"           KORTING in de badge
-    3,36  "dus wees snel!"    rode timerring loopt leeg, bon schudt
-  Ondertitels in de edit staan op y≈870–1030: die band blijft vrij.
+  v2 · "Apple/Shopify"-stijl eindkaart · AC's BBQ × Tropical Caribbean Products · kortingscode AC15
+  1080×1920 @ 60fps · MOV start = 18,07 s in de edit · 4,05 s (243 frames)
+  Rustig en strak: zachte mesh-achtergrond, app-icoon, witte kaart met codeveld, subtiele bewegingen.
+    0,00  "namelijk nu"       achtergrond in + app-icoon AC's BBQ, naam, "× Tropical Caribbean Products"
+    0,75  "een kortingscode"  kaart schuift omhoog
+    1,48  "ac15"              AC15 typt in het codeveld (cursor)
+    2,25  "voor 15%"          "15%" telt op
+    2,91  "korting"           "korting" erachter
+    3,36  "dus wees snel!"    "Wees snel"-pil met aflopende balk; kopieer-icoon → vinkje
+  Ondertitels in de edit: y≈870–1030 blijft vrij.
 -->
-<div id="bg" class="abs" style="inset:0;background:radial-gradient(ellipse 80% 55% at 50% 42%,#3A2414 0%,#1E1610 45%,var(--donker) 100%)">
-  <div class="abs" style="left:0;right:0;bottom:0;height:520px;background:linear-gradient(transparent,rgba(192,24,46,.20))"></div>
-  <div id="vonken"></div>
+<div id="bg" class="abs" style="inset:0;background:#0C100E;overflow:hidden">
+  <div id="b1" class="blob" style="width:900px;height:900px;background:#1F6B30;opacity:.85"></div>
+  <div id="b2" class="blob" style="width:820px;height:820px;background:#8E1023;opacity:.7"></div>
+  <div id="b3" class="blob" style="width:560px;height:560px;background:#B8930E;opacity:.35"></div>
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 40%,rgba(0,0,0,.45) 100%)"></div>
 </div>
 
-<!-- lockup -->
-<div id="lock" class="abs" style="left:0;right:0;top:250px;height:520px">
-  <img id="acs" class="abs" src="acsbbq_logo.png" style="left:110px;top:40px;width:420px;height:420px;border-radius:36px;box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 0 6px rgba(242,200,20,.85)">
-  <div id="kruis" class="abs" style="left:520px;top:180px;width:90px;text-align:center;font:400 110px/1 Anton;color:var(--geel)">×</div>
-  <div id="trop" class="abs" style="left:610px;top:150px;width:360px;height:200px;border-radius:30px;background:#fff;box-shadow:0 26px 50px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center">
-    <img src="tropical_logo.png" style="width:300px">
+<!-- kop: app-icoon + naam -->
+<div id="kop" class="abs" style="left:0;right:0;top:250px;height:560px">
+  <div id="icoon" class="abs" style="left:390px;top:0;width:300px;height:300px;border-radius:68px;overflow:hidden;
+       box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 1.5px rgba(255,255,255,.18) inset">
+    <img src="acsbbq_logo_origineel.png" style="width:300px;height:300px;display:block">
   </div>
+  <div id="naam" class="abs" style="left:0;right:0;top:350px;text-align:center;font:900 76px/1 Inter;color:#fff;letter-spacing:-1.5px">
+    AC's BBQ <svg width="50" height="50" viewBox="0 0 24 24" style="vertical-align:-4px"><path fill="#3DDC84" d="M12 1.5l2.6 1.9 3.2-.2 1 3 2.7 1.8-.9 3.1.9 3.1-2.7 1.8-1 3-3.2-.2L12 22.5l-2.6-1.9-3.2.2-1-3-2.7-1.8.9-3.1-.9-3.1 2.7-1.8 1-3 3.2.2z"/><path d="M7.6 12.3l2.9 2.9 5.9-5.9" fill="none" stroke="#0C100E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div id="sub" class="abs" style="left:0;right:0;top:452px;text-align:center;font:700 36px/1 Inter;color:rgba(255,255,255,.62);letter-spacing:-.2px">× Tropical Caribbean Products</div>
 </div>
 
-<!-- kortingsbon -->
-<div id="bon" class="abs" style="left:110px;top:1110px;width:860px;height:470px;transform-origin:50% 50%">
-  <svg class="abs" width="860" height="470" style="left:0;top:0;overflow:visible;filter:drop-shadow(0 30px 50px rgba(0,0,0,.6))">
-    <defs><linearGradient id="bonbg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFFDF6"/><stop offset="1" stop-color="#F3E9D2"/></linearGradient></defs>
-    <path d="M30 0 H830 Q860 0 860 30 V200 A35 35 0 0 0 860 270 V440 Q860 470 830 470 H30 Q0 470 0 440 V270 A35 35 0 0 0 0 200 V30 Q0 0 30 0 Z" fill="url(#bonbg)"/>
-    <path d="M30 0 H830 Q860 0 860 30 V200 A35 35 0 0 0 860 270 V440 Q860 470 830 470 H30 Q0 470 0 440 V270 A35 35 0 0 0 0 200 V30 Q0 0 30 0 Z" fill="none" stroke="var(--groen)" stroke-width="10"/>
-    <line x1="60" y1="235" x2="800" y2="235" stroke="#C9B990" stroke-width="5" stroke-dasharray="18 14"/>
-    <rect x="0" y="0" width="860" height="18" rx="9" fill="var(--rood)"/>
-  </svg>
-  <div class="abs" style="left:64px;top:62px;font:900 44px/1 Inter;letter-spacing:10px;color:var(--groen)">KORTINGSCODE</div>
-  <div id="code" class="abs" style="left:0;right:0;top:262px;height:190px;text-align:center;font:400 190px/190px Anton;letter-spacing:14px;color:var(--donker);white-space:nowrap;overflow:hidden"></div>
-  <div id="glans" class="abs" style="top:0;width:200px;height:470px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-18deg);mix-blend-mode:screen"></div>
-</div>
-
-<!-- 15%-badge -->
-<div id="badge" class="abs" style="left:690px;top:1040px;width:340px;height:340px;margin:0;transform-origin:50% 50%">
-  <svg class="abs" width="340" height="340" viewBox="-170 -170 340 340" style="left:0;top:0;overflow:visible">
-    <path id="ster" fill="var(--geel)" stroke="#8A6A00" stroke-width="6"/>
-    <circle id="ring" r="158" fill="none" stroke="var(--rood)" stroke-width="16" stroke-linecap="round" transform="rotate(-90)"/>
-  </svg>
-  <div id="pct" class="abs" style="left:0;right:0;top:92px;text-align:center;font:400 128px/1 Anton;color:var(--rood);text-shadow:0 5px 0 rgba(0,0,0,.18)">0%</div>
-  <div id="kort" class="abs" style="left:0;right:0;top:226px;text-align:center;font:900 32px/1 Inter;letter-spacing:5px;color:var(--donker)">KORTING</div>
+<!-- kaart -->
+<div id="kaart" class="abs" style="left:90px;top:1095px;width:900px;height:560px;border-radius:56px;background:#fff;
+     box-shadow:0 50px 100px rgba(0,0,0,.5),0 10px 30px rgba(0,0,0,.25)">
+  <div class="abs" style="left:64px;top:60px;font:700 30px/1 Inter;color:var(--grijs);letter-spacing:4px">KORTINGSCODE</div>
+  <div id="skel" class="abs" style="left:64px;top:128px;width:560px;height:84px;border-radius:22px;background:#EEF0F3;overflow:hidden">
+    <div id="shim" class="abs" style="top:0;width:220px;height:84px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0))"></div>
+  </div>
+  <div class="abs" style="left:64px;top:110px;height:120px;font:900 112px/120px Inter;color:var(--ink);letter-spacing:-4px;white-space:nowrap">
+    <span id="pct">0%</span><span id="kort" style="color:var(--groen);margin-left:22px">korting</span>
+  </div>
+  <!-- codeveld -->
+  <div id="veld" class="abs" style="left:64px;right:64px;top:270px;height:150px;border-radius:32px;background:#F4F5F7;border:2px dashed #CDD2D8">
+    <div class="abs" style="left:46px;top:0;height:150px;display:flex;align-items:center;font:900 92px/1 Inter;letter-spacing:10px;color:var(--ink)">
+      <span id="code"></span><span id="caret" style="display:inline-block;width:6px;height:84px;margin-left:8px;border-radius:3px;background:var(--groen)"></span>
+    </div>
+    <div id="knop" class="abs" style="right:22px;top:22px;width:106px;height:106px;border-radius:28px;background:var(--ink);display:flex;align-items:center;justify-content:center">
+      <svg id="kopie" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="abs"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+      <svg id="vink" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="abs"><path id="vinkpad" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+    </div>
+  </div>
+  <!-- wees snel -->
+  <div id="snel" class="abs" style="left:64px;right:64px;top:458px;height:64px;display:flex;align-items:center;gap:18px">
+    <div style="flex:none;height:56px;padding:0 24px 0 18px;border-radius:28px;background:#FEECEE;display:flex;align-items:center;gap:12px;font:700 30px/1 Inter;color:var(--rood)">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C0182E" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg>Wees snel
+    </div>
+    <div style="flex:1;height:12px;border-radius:6px;background:var(--lijn);overflow:hidden"><div id="balk" style="height:100%;width:100%;border-radius:6px;background:linear-gradient(90deg,#C0182E,#F2C814)"></div></div>
+  </div>
 </div>
 
 <script>
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
-const ease={outExpo:x=>x>=1?1:1-Math.pow(2,-10*x), inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
-  outBack:x=>{const c1=1.9,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
-  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, outCubic:x=>1-Math.pow(1-x,3)};
+const ease={outExpo:x=>x>=1?1:1-Math.pow(2,-10*x), outQuint:x=>1-Math.pow(1-x,5),
+  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, outCubic:x=>1-Math.pow(1-x,3),
+  outBack:x=>{const c1=1.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)}};
 const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
 const lerp=(a,b,p)=>a+(b-a)*p;
-const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 const FPS=60, D=243/FPS;
-const T={lock:0.05, kruis:0.28, trop:0.33, bon:0.75, code:1.48, pct:2.25, kort:2.91, snel:3.36};
+const T={icoon:0.05, naam:0.22, sub:0.36, kaart:0.75, code:1.48, pct:2.25, kort:2.91, snel:3.36};
 const CODE='AC15';
 
-function setup(){
-  // starburst
-  let d=''; const n=20;
-  for(let i=0;i<n*2;i++){const a=i/(n*2)*Math.PI*2, r=i%2?128:150; d+=(i?'L':'M')+(Math.cos(a)*r).toFixed(1)+' '+(Math.sin(a)*r).toFixed(1)+' ';}
-  document.getElementById('ster').setAttribute('d',d+'Z');
-  const ring=document.getElementById('ring'); const L=2*Math.PI*158; ring.style.strokeDasharray=L; ring.dataset.len=L;
-  document.getElementById('code').innerHTML=[...CODE].map(c=>`<span class="l" style="display:inline-block">${c}</span>`).join('');
-  document.getElementById('vonken').innerHTML=Array.from({length:46},()=>`<div class="abs v" style="border-radius:50%;background:radial-gradient(circle,#FFE08A,#FF7A1A 55%,rgba(255,80,0,0) 72%)"></div>`).join('');
+// Apple-achtige entree: omhoog schuiven + iets kleiner→1 + blur→scherp, zonder overshoot
+function verschijn(el,u,start,dur=0.6,dy=50,s0=0.94,blur=14){
+  const p=eased(u,start,start+dur,ease.outQuint);
+  el.style.transform=`translateY(${lerp(dy,0,p)}px) scale(${lerp(s0,1,p)})`;
+  el.style.filter=`blur(${lerp(blur,0,p)}px)`; el.style.opacity=u<start?0:p;
+  return p;
 }
-
 function render(_,u){
-  // achtergrond: diagonale veeg van linksonder naar rechtsboven
-  const w=eased(u,0,0.26,ease.outExpo);
-  const bg=document.getElementById('bg');
-  const p=lerp(-60,160,w);
-  bg.style.clipPath=`polygon(0% 100%, 0% ${100-p*1.25}%, ${p*1.25}% 100%)`;
-  if(w>=0.999) bg.style.clipPath='none';
-  // vonken stijgen op (sneller bij "wees snel")
-  const snel=eased(u,T.snel,T.snel+0.3,ease.outCubic);
-  document.querySelectorAll('#vonken .v').forEach((v,i)=>{
-    const sp=(140+rnd(i)*260)*(1+snel*1.6), r=3+rnd(i+20)*7, ph=rnd(i+40)*1920;
-    const y=1980-((ph+u*sp)%2050), x=rnd(i+60)*1080+Math.sin(u*2+i)*30;
-    v.style.width=v.style.height=r*2+'px'; v.style.left=(x-r)+'px'; v.style.top=(y-r)+'px';
-    v.style.opacity=(0.35+0.65*rnd(i+80))*w;
-  });
+  // achtergrond: zacht infaden + langzaam bewegende kleurvlekken
+  const bi=eased(u,0,0.35,ease.outCubic);
+  const bg=document.getElementById('bg'); bg.style.opacity=bi;
+  const pos=(id,x,y)=>{const e=document.getElementById(id); e.style.left=x+'px'; e.style.top=y+'px';};
+  pos('b1',-260+Math.sin(u*0.6)*60, -180+Math.cos(u*0.5)*50);
+  pos('b2', 520+Math.cos(u*0.55)*60, 1250+Math.sin(u*0.7)*60);
+  pos('b3', 300+Math.sin(u*0.8+1)*80, 760+Math.cos(u*0.6)*60);
 
-  // lockup
-  const a=eased(u,T.lock,T.lock+0.45,ease.outBack), az=eased(u,T.lock,T.lock+0.3,ease.outExpo);
-  const acs=document.getElementById('acs');
-  acs.style.transform=`translateY(${Math.sin(u*1.6)*5}px) rotate(${lerp(-14,-3,a)}deg) scale(${lerp(1.9,1,az)*lerp(0.5,1,a)})`;
-  acs.style.filter=`blur(${lerp(18,0,az)}px)`; acs.style.opacity=u<T.lock?0:Math.min(az*1.6,1);
-  const k=eased(u,T.kruis,T.kruis+0.3,ease.outBack);
-  document.getElementById('kruis').style.transform=`scale(${k}) rotate(${lerp(-90,0,k)}deg)`;
-  const tr=eased(u,T.trop,T.trop+0.45,ease.outBack), tz=eased(u,T.trop,T.trop+0.3,ease.outExpo);
-  const trop=document.getElementById('trop');
-  trop.style.transform=`translateY(${Math.sin(u*1.6+1)*5}px) rotate(${lerp(14,3,tr)}deg) scale(${lerp(1.9,1,tz)*lerp(0.5,1,tr)})`;
-  trop.style.filter=`blur(${lerp(18,0,tz)}px)`; trop.style.opacity=u<T.trop?0:Math.min(tz*1.6,1);
+  verschijn(document.getElementById('icoon'),u,T.icoon,0.7,40,0.86,18);
+  document.getElementById('icoon').style.transform+=` translateY(${Math.sin(u*1.3)*4}px)`;
+  verschijn(document.getElementById('naam'),u,T.naam,0.6,36);
+  verschijn(document.getElementById('sub'),u,T.sub,0.6,30);
+  verschijn(document.getElementById('kaart'),u,T.kaart,0.7,120,0.95,16);
 
-  // bon
-  const b=eased(u,T.bon,T.bon+0.5,ease.outBack), bz=eased(u,T.bon,T.bon+0.32,ease.outExpo);
-  const shake=u>T.snel?Math.sin(u*60)*Math.exp(-(u-T.snel)*3)*7:0;
-  const bon=document.getElementById('bon');
-  bon.style.transform=`translate(${shake}px,${lerp(700,0,b)}px) rotate(${lerp(10,-2,b)+shake*0.15}deg) scale(${lerp(1.3,1,bz)})`;
-  bon.style.filter=`blur(${lerp(12,0,bz)}px)`; bon.style.opacity=u<T.bon?0:1;
-  // code letters
-  document.querySelectorAll('#code .l').forEach((l,i)=>{
-    const st=T.code+i*0.06, q=eased(u,st,st+0.28,ease.outBack), z=eased(u,st,st+0.18,ease.outExpo);
-    l.style.transform=`translateY(${lerp(-120,0,q)}px) scale(${lerp(2.4,1,z)})`; l.style.opacity=u<st?0:Math.min(z*1.8,1);
-    l.style.filter=`blur(${lerp(10,0,z)}px)`;
-  });
-  const gl=eased(u,T.code+0.35,T.code+0.85,ease.inOutCubic);
-  const glans=document.getElementById('glans'); glans.style.left=lerp(-260,920,gl)+'px'; glans.style.opacity=(gl>0&&gl<1)?1:0;
+  // code typt in
+  const n=Math.floor(clamp((u-T.code)/0.09,0,CODE.length)+(u>=T.code?1:0));
+  document.getElementById('code').textContent=u<T.code?'':CODE.slice(0,Math.min(n,CODE.length));
+  const caret=document.getElementById('caret');
+  caret.style.opacity=u<T.kaart+0.3?0:((Math.floor(u*2.4)%2===0||(u>T.code&&u<T.code+0.45))?1:0);
+  if(u>T.snel) caret.style.opacity=0;
+  // knop: kopieer → vinkje bij "wees snel"
+  const kp=eased(u,T.snel,T.snel+0.25,ease.outCubic);
+  const knop=document.getElementById('knop'); const press=u>T.snel&&u<T.snel+0.18?0.9:1;
+  knop.style.transform=`scale(${press})`; knop.style.background=kp>0.5?'#0F1411':'#0F1411';
+  document.getElementById('kopie').style.opacity=1-kp;
+  const vink=document.getElementById('vink'), vp=document.getElementById('vinkpad'); const L=vp.getTotalLength();
+  vink.style.opacity=kp; vp.style.strokeDasharray=L; vp.style.strokeDashoffset=L*(1-eased(u,T.snel+0.08,T.snel+0.38,ease.outCubic));
 
-  // badge 15%
-  const g=eased(u,T.pct,T.pct+0.4,ease.outBack), gz=eased(u,T.pct,T.pct+0.25,ease.outExpo);
-  const pulse=u>T.snel?1+0.06*Math.abs(Math.sin((u-T.snel)*9)):1;
-  const badge=document.getElementById('badge');
-  badge.style.transform=`rotate(${lerp(-40,8,g)+Math.sin(u*2)*2}deg) scale(${lerp(2.6,1,gz)*lerp(0.3,1,g)*pulse})`;
-  badge.style.filter=`blur(${lerp(16,0,gz)}px)`; badge.style.opacity=u<T.pct?0:Math.min(gz*1.6,1);
-  document.getElementById('ster').setAttribute('transform',`rotate(${u*20})`);
-  document.getElementById('pct').textContent=Math.round(15*eased(u,T.pct+0.05,T.pct+0.45,ease.outCubic))+'%';
-  const ko=eased(u,T.kort,T.kort+0.3,ease.outBack), kor=document.getElementById('kort');
-  kor.style.transform=`scale(${lerp(0.2,1,ko)})`; kor.style.opacity=u<T.kort?0:1;
-  // timerring: loopt leeg vanaf "wees snel"
-  const ring=document.getElementById('ring'), L=+ring.dataset.len;
-  const rv=eased(u,T.snel,T.snel+0.2,ease.outCubic), rl=eased(u,T.snel+0.1,D,x=>x);
-  ring.style.opacity=rv; ring.style.strokeDashoffset=L*rl;
+  // 15% telt op, "korting" erachter
+  const pc=eased(u,T.pct,T.pct+0.5,ease.outCubic);
+  const pct=document.getElementById('pct');
+  pct.textContent=(u<T.pct?0:Math.round(15*pc))+'%'; pct.style.opacity=u<T.pct?0:1;
+  // skeleton (laadbalk) tot "voor 15%", met shimmer
+  const sk=eased(u,T.pct-0.05,T.pct+0.2,ease.outCubic);
+  document.getElementById('skel').style.opacity=1-sk;
+  document.getElementById('shim').style.left=(-240+((u*900)%820))+'px';
+  const ko=eased(u,T.kort,T.kort+0.45,ease.outQuint), kort=document.getElementById('kort');
+  kort.style.opacity=ko; kort.style.filter=`blur(${lerp(10,0,ko)}px)`; kort.style.display='inline-block';
+  kort.style.transform=`translateX(${lerp(-20,0,ko)}px)`;
+
+  // wees snel
+  verschijn(document.getElementById('snel'),u,T.snel,0.5,24,0.97,8);
+  document.getElementById('balk').style.width=(100*(1-eased(u,T.snel+0.2,D,x=>x)))+'%';
 }
 window.init=async()=>{ for(const i of document.images){ if(!i.complete) await new Promise(r=>i.onload=r); await i.decode(); }
-  await document.fonts.load('100px Anton'); await document.fonts.load('900 40px Inter'); await document.fonts.ready; setup(); };
+  await document.fonts.load('900 100px Inter'); await document.fonts.load('700 30px Inter'); await document.fonts.ready; };
 window.render=render; window.D=D;
 </script>
 </body></html>

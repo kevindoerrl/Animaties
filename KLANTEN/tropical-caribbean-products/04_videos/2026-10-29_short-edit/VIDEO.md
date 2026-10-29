@@ -12,7 +12,7 @@
 
 | # | Tijd | Type | Spoken trigger | Status |
 |---|---|---|---|---|
-| 1 | 00:18.07 → 00:22.12 (MOV start = 18,07 s) | Eindkaart AC's BBQ × Tropical: BBQ-achtergrond met vonken, lockup, kortingsbon AC15, 15%-badge, timerring | "namelijk nu" · "een kortingscode" · "ac15" · "voor 15%" · "korting" · "dus wees snel!" | stills v1 + preview |
+| 1 | 00:18.07 → 00:22.12 (MOV start = 18,07 s) | Eindkaart AC's BBQ × Tropical: BBQ-achtergrond met vonken, lockup, kortingsbon AC15, 15%-badge, timerring | "namelijk nu" · "een kortingscode" · "ac15" · "voor 15%" · "korting" · "dus wees snel!" | v1 (BBQ-bon) → **v2 Apple/Shopify-stijl** (stills + preview) |
 
 Edit (22,1 s) van de gebruiker; de laatste clip (18,07–22,12) was zwart met alleen ondertitels.
 Ondertitels staan op y≈870–1030: die band blijft vrij; MOV in Premiere ONDER het ondertitelspoor leggen.
@@ -28,3 +28,5 @@ AC's BBQ-logo: uit de edit gehaald (frame 2,4 s, 540×540). Origineel logobestan
 - `06_export/`: eindvideo uit Premiere
 - `_archief/`: automatische back-ups vóór overschrijven
 - `_code/`: broncode van de animaties van deze video (compositie, render-script). Staat in git, zodat je later opnieuw kunt renderen
+
+v2 (29-10): strakke Apple/Shopify-stijl op verzoek; origineel AC's BBQ-logo aangeleverd (`01_brand/beeldmateriaal/partner_acsbbq_logo.png`). v1 bewaard als `_code/comp_v1.html`.
