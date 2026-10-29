@@ -4,7 +4,7 @@
 |---|---|
 | **Aangemaakt** | 2026-10-29 |
 | **Bron** | `01_bron/` |
-| **Formaat** | 1920×1080 @ 60fps (vastgelegd in `video.json`) |
+| **Formaat** | 1080×1920 @ 60fps, YouTube Short (vastgelegd in `video.json`) |
 | **Duur** |  |
 | **Status** | concept · stills · akkoord · MOV's geleverd · in Premiere · geëxporteerd |
 

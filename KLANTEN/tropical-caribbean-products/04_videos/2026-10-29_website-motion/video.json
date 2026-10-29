@@ -3,9 +3,10 @@
   "video": "website motion",
   "datum": "2026-10-29",
   "formaat": {
-    "breedte": 1920,
-    "hoogte": 1080,
+    "breedte": 1080,
+    "hoogte": 1920,
     "fps": 60
   },
-  "bron": null
+  "bron": null,
+  "opmerking": "YouTube Short (9:16). 16:9-versie: _code/comp_16x9.html"
 }
