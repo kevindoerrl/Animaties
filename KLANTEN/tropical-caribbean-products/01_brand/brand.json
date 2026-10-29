@@ -1,0 +1,38 @@
+{
+  "naam": "Tropical Caribbean Products",
+  "website": "https://www.tropicalcaribbeanproducts.nl",
+  "kleuren": {
+    "primary": "#5D9431",
+    "secondary": "#FFE607",
+    "accent": "#E8312A",
+    "tekst": "#231510",
+    "achtergrond": "#FFFFFF"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Cabin",
+      "weight": 700,
+      "bestand": "fonts/"
+    },
+    "body": {
+      "family": "Rubik",
+      "weight": 400,
+      "bestand": "fonts/"
+    }
+  },
+  "logo": {
+    "primair": "logo/logo.png",
+    "wit": null
+  },
+  "formaat": {
+    "breedte": 1920,
+    "hoogte": 1080,
+    "fps": 60
+  },
+  "fixed_outro": null,
+  "oplevering": {
+    "hook_varianten": 2,
+    "max_animaties": null
+  },
+  "bron_kleuren": "Gemeten van tropicalcaribbeanproducts.nl op 2026-10-29 (aankondigingsbalk groen, header geel)."
+}

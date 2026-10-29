@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
+.abs{position:absolute}
+#stage{position:absolute;inset:0;perspective:2400px;perspective-origin:50% 45%}
+#card{position:absolute;left:240px;top:103px;width:1440px;height:874px;transform-style:preserve-3d;border-radius:22px;
+      background:#fff;box-shadow:0 60px 120px rgba(0,0,0,.45),0 18px 40px rgba(0,0,0,.30);overflow:hidden}
+#bar{position:absolute;left:0;right:0;top:0;height:64px;background:linear-gradient(#F4F4F6,#E9E9EC);border-bottom:1px solid #D6D6DA}
+.dot{position:absolute;top:22px;width:20px;height:20px;border-radius:50%}
+#url{position:absolute;left:330px;right:330px;top:13px;height:38px;border-radius:19px;background:#fff;border:1px solid #D9D9DE;
+     display:flex;align-items:center;justify-content:center;gap:10px;font:500 21px/1 "DejaVu Sans",Arial,sans-serif;color:#3A3A40}
+#view{position:absolute;left:0;right:0;top:64px;bottom:0;overflow:hidden;background:#fff}
+#site{position:absolute;left:0;top:0;width:1440px}
+#glare{position:absolute;top:-30%;width:420px;height:160%;transform:rotate(16deg);
+       background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.38),rgba(255,255,255,0));pointer-events:none}
+</style></head>
+<body>
+<!--
+  Klant: Tropical Caribbean Products · website-motion · 1920×1080 @ 60fps · 5,0 s · transparante achtergrond
+  Browservenster met de echte homepage (screenshot 29-10-2026), schuin in 3D:
+    0,00–0,70  komt van ver/schuin binnen (scale + blur + rotatie → scherp)
+    0,70–4,30  draait langzaam bij (rotateY −22° → −13°), zweeft licht
+    1,70–3,30  scrollt van de hero naar "Populaire Caribische & Surinaamse kruiden"
+    0,6 / 3,4  glansstreep over het scherm
+    4,28–4,98  draait weg naar rechts + blur → leeg op het laatste frame
+-->
+<div id="stage">
+  <div id="card">
+    <div id="bar">
+      <div class="dot" style="left:26px;background:#FF5F57"></div>
+      <div class="dot" style="left:58px;background:#FEBC2E"></div>
+      <div class="dot" style="left:90px;background:#28C840"></div>
+      <div id="url">
+        <svg width="16" height="20" viewBox="0 0 16 20"><rect x="1" y="8" width="14" height="11" rx="2.5" fill="#5D9431"/><path d="M4 8 V5.5 a4 4 0 0 1 8 0 V8" fill="none" stroke="#5D9431" stroke-width="2.4"/></svg>
+        <span>tropicalcaribbeanproducts.nl</span>
+      </div>
+    </div>
+    <div id="view"><img id="site" src="site.jpg"></div>
+    <div id="glare"></div>
+  </div>
+</div>
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease={outExpo:x=>x>=1?1:1-Math.pow(2,-10*x), inExpo:x=>x<=0?0:Math.pow(2,10*x-10),
+  inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, outCubic:x=>1-Math.pow(1-x,3), inCubic:x=>x*x*x};
+const eased=(t,a,b,f)=>f(clamp((t-a)/(b-a)));
+const lerp=(a,b,p)=>a+(b-a)*p;
+const FPS=60, D=300/FPS;
+const SCROLL=780;   // css-px: hero → productraster
+
+function render(_,t){
+  const inn=eased(t,0,0.7,ease.outExpo), uit=eased(t,4.28,D-1/FPS,ease.inCubic);
+  const drift=eased(t,0.7,4.3,ease.inOutCubic);
+  const ry=lerp(-48,-22,inn)+lerp(0,9,drift)+lerp(0,40,uit);
+  const rx=lerp(22,10,inn)-lerp(0,3,drift);
+  const rz=lerp(-6,-1.5,inn)+lerp(0,3,uit);
+  const sc=lerp(1.55,0.92,inn)*lerp(1,0.85,uit);
+  const tx=lerp(-120,0,inn)+lerp(0,260,uit), ty=Math.sin(t*1.4)*6 + lerp(40,0,inn);
+  const c=document.getElementById('card');
+  c.style.transform=`translate3d(${tx}px,${ty}px,0) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg) scale(${sc})`;
+  c.style.filter=`blur(${lerp(22,0,inn)+uit*20}px)`;
+  c.style.opacity=Math.min(eased(t,0,0.15,ease.outCubic),1-uit);
+  document.getElementById('site').style.transform=`translateY(${-SCROLL*eased(t,1.7,3.3,ease.inOutCubic)}px)`;
+  const g=document.getElementById('glare');
+  const g1=eased(t,0.6,1.4,ease.inOutCubic), g2=eased(t,3.4,4.1,ease.inOutCubic);
+  const gp=t<2.5?g1:g2;
+  g.style.left=lerp(-600,1700,gp)+'px'; g.style.opacity=(gp>0&&gp<1)?1:0;
+}
+window.init=async()=>{ const i=document.getElementById('site'); if(!i.complete) await new Promise(r=>i.onload=r); await i.decode(); };
+window.render=render; window.D=D;
+</script>
+</body></html>
